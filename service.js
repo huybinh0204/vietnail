@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "bYl@12345^^",
-    database: "ntk_vietnails ",
+    database: "ntk_vietnails",
     port: 3306,
 });
 connection.connect(function(err) {
