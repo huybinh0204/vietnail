@@ -49,18 +49,18 @@ module.exports = {
             var obj = [];
             if (rown != '') {
                 var otp = random_random.open_otp(6);
-                var otp_status = "N";
-                var id_User = rown[0].id;
+                var status_otp = "N";
+                var user_id = rown[0].id;
                 var url = `${random_random.esms_url}?Phone=${phone}&Content=${otp}&ApiKey=${random_random.ApiKey}&SecretKey=` +
                     `${random_random.SecretKey}&Brandname=${random_random.Brandname}&SmsType=${random_random.SmsType}`;
                 axios.get(url)
                     .then(function (response) {
                         if (response.data.CodeResult == 100) {
-                            let sql_otp = `INSERT INTO check_otp SET ?`;
+                            let sql_otp = `INSERT INTO otp_code SET ?`;
                             console.log("222s", sql_otp)
                             let created_otp = is_created_otp;
                             let at_created = check_time;
-                            db.query(sql_otp, [{otp, otp_status, id_User, created_otp, at_created}], (err, response) => {
+                            db.query(sql_otp, [{otp, status_otp, user_id, created_otp, at_created}], (err, response) => {
                                 if (err) throw err
                                 for (var i = 0; i < rown.length; i++) {
                                     var ArrUser = {
@@ -101,33 +101,33 @@ module.exports = {
     check_otp: (req, res) => {
         let id_User = req.body.id_User;
         let otp = req.body.on_key;
-        let sql = `SELECT * FROM check_otp WHERE id_User = ${id_User} AND at_created LIKE "${time}%" ORDER BY id DESC LIMIT 1`;
+        let sql = `SELECT * FROM otp_code WHERE user_id = ${id_User} AND at_created LIKE "${time}%" ORDER BY id DESC LIMIT 1`;
         // console.log("sql check otp", sql)
         if (id_User != undefined && otp != '') {
             db.query(sql, (err, rown, response) => {
                 if (err) throw err
                 if (rown != '') {
-                    let sql_otp = `SELECT * FROM check_otp WHERE otp_status = "N" AND otp="${otp}"`;
+                    let sql_otp = `SELECT * FROM otp_code WHERE status_otp = "N" AND otp="${otp}"`;
                     // console.log("sql_otp check max", sql_otp)
                     db.query(sql_otp, (err, rowns, response) => {
                         if (err) throw err
                         if (rowns != '') {
-                            var id_User = rowns[0].id_User;
+                            var user_id = rowns[0].user_id;
                             var is_created = Number(rowns[0].created_otp);
                             var check_created_otp = is_created + 120000;
                             var datetody = new Date();
                             var check_date_otpt = datetody.getTime();
                             console.log("check_created_otp", check_created_otp +">=" + check_date_otpt)
                             // luon db >= time
-                            let otp_status = "Y";
+                            let status_otp = "Y";
                             let id = rowns[0].id;
                             let is_active = 0;
-                            let is_sql_otp = `UPDATE check_otp SET ? WHERE id = ${id}`;
+                            let is_sql_otp = `UPDATE otp_code SET ? WHERE id = ${id}`;
                             // console.log("is_sql_otp",is_sql_otp)
-                            let user_sql = `UPDATE user SET ? WHERE id = ${id_User}`;
+                            let user_sql = `UPDATE user SET ? WHERE id = ${user_id}`;
                             // console.log("user_sql",user_sql)
                             if (check_created_otp >= check_date_otpt) {
-                                db.query(is_sql_otp, [{otp_status}], (err, response) => {
+                                db.query(is_sql_otp, [{status_otp}], (err, response) => {
                                     if (err) throw err
                                     res.json({"status": "200", "message": 'User otp ok'})
                                 })
@@ -163,7 +163,7 @@ module.exports = {
     },
     store: (req, res) => {
         var otp = random_random.open_otp(6);
-        var otp_status = "N";
+        var status_otp = "N";
         var check_time = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD hh:mm:ss");
         var date = new Date();
         var is_created_otp = date.getTime();
@@ -203,15 +203,15 @@ module.exports = {
                                 console.log("sql_SELECT", sql_SELECT)
                                 db.query(sql_SELECT, [phone, password], (err, rown, fields) => {
                                     if (err) throw err
-                                    var id_User = rown[0].id;
-                                    let sql_otp = `INSERT INTO check_otp SET ?`;
+                                    var user_id = rown[0].id;
+                                    let sql_otp = `INSERT INTO otp_code SET ?`;
                                     console.log("sql_otp", sql_otp)
                                     let created_otp = is_created_otp;
                                     let at_created = check_time;
                                     db.query(sql_otp, [{
                                         otp,
-                                        otp_status,
-                                        id_User,
+                                        status_otp,
+                                        user_id,
                                         created_otp,
                                         at_created
                                     }], (err, response) => {
@@ -247,21 +247,20 @@ module.exports = {
                         console.log("err1")
                     });
             } else if (rown[0].is_active == 2) {
-
-                var id_User = rown[0].id;
+                var user_id = rown[0].id;
                 //check max otp trtong ngay
-                let sql = `SELECT id FROM check_otp WHERE id_User = ${id_User} AND at_created LIKE "${time}%"`;
+                let sql = `SELECT id FROM otp_code WHERE user_id = ${user_id} AND at_created LIKE "${time}%"`;
                 db.query(sql, (err, rowns, response) => {
                     if (err) throw err
                     if (rowns.length < 3) {
                         axios.get(url)
                             .then(function (response) {
                                 if (response.data.CodeResult == 100) {
-                                    let sql_otp = `INSERT INTO check_otp SET ?`;
+                                    let sql_otp = `INSERT INTO otp_code SET ?`;
                                     let created_otp = is_created_otp;
                                     let at_created = check_time;
                                     console.log("sql_otp_co tronh db",sql_otp)
-                                    db.query(sql_otp, [{otp, otp_status, id_User, created_otp, at_created}], (err, response) => {
+                                    db.query(sql_otp, [{otp, status_otp, user_id, created_otp, at_created}], (err, response) => {
                                         if (err) throw err
                                         var obj = [];
                                         for (var i = 0; i < rown.length; i++) {
