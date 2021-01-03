@@ -13,30 +13,7 @@
     <list default="true" id="ba4a68ca-13aa-4ecd-9129-6ded7f0d04bc" name="Default Changelist" comment="updat nhuy don">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/www" beforeDir="false" afterPath="$PROJECT_DIR$/bin/www" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blinh.sql" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/Orders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/check_otp.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/Notify_User.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/Notify_User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/Promotion.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/Schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/Schedule.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/Shop.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/Single_word.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/Statistic_Sch.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Schedule_details_model.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Order_details_model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Schedule_model.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/Order_model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User_model.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/User_model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/n_vietnail_m.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/n_vietnail_mk.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server12.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service.js" beforeDir="false" afterPath="$PROJECT_DIR$/service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vietnails_vi1p.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vietnails_vip2.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vietnails_vip3.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vietnails_vip_check.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vvv_apache2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,13 +168,7 @@
       <workItem from="1609302361932" duration="446000" />
       <workItem from="1609323453863" duration="662000" />
       <workItem from="1609383235294" duration="10680000" />
-    </task>
-    <task id="LOCAL-00124" summary="updat otp">
-      <created>1608514325862</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1608514325862</updated>
+      <workItem from="1609668398215" duration="690000" />
     </task>
     <task id="LOCAL-00125" summary="updat otp">
       <created>1608515004289</created>
@@ -535,7 +506,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608581944005</updated>
     </task>
-    <option name="localTasksCounter" value="173" />
+    <task id="LOCAL-00173" summary="updat nhuy don">
+      <created>1609668402196</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1609668402197</updated>
+    </task>
+    <option name="localTasksCounter" value="174" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -653,11 +631,11 @@
     </state>
     <state x="341" y="134" key="SettingsEditor/0.23.1680.942@0.23.1680.942" timestamp="1605783793864" />
     <state x="341" y="135" key="SettingsEditor/1680.23.1366.745/0.23.1680.947@0.23.1680.947" timestamp="1604476552538" />
-    <state x="440" y="235" key="Vcs.Push.Dialog.v2" timestamp="1608581950094">
+    <state x="440" y="235" key="Vcs.Push.Dialog.v2" timestamp="1609668411297">
       <screen x="0" y="23" width="1680" height="943" />
     </state>
     <state x="440" y="235" key="Vcs.Push.Dialog.v2/0.23.1680.942@0.23.1680.942" timestamp="1606360341880" />
-    <state x="440" y="235" key="Vcs.Push.Dialog.v2/0.23.1680.943@0.23.1680.943" timestamp="1608581950094" />
+    <state x="440" y="235" key="Vcs.Push.Dialog.v2/0.23.1680.943@0.23.1680.943" timestamp="1609668411297" />
     <state x="440" y="236" key="Vcs.Push.Dialog.v2/0.23.1680.947@0.23.1680.947" timestamp="1607736951502" />
     <state x="440" y="236" key="Vcs.Push.Dialog.v2/1680.23.1366.745/0.23.1680.947@0.23.1680.947" timestamp="1607928998129" />
     <state x="1680" y="23" width="1182" height="745" key="dock-window-1" timestamp="1607927750354">
