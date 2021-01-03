@@ -10,10 +10,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba4a68ca-13aa-4ecd-9129-6ded7f0d04bc" name="Default Changelist" comment="updat nhuy don">
+    <list default="true" id="ba4a68ca-13aa-4ecd-9129-6ded7f0d04bc" name="Default Changelist" comment="update post">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/www" beforeDir="false" afterPath="$PROJECT_DIR$/bin/www" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service.js" beforeDir="false" afterPath="$PROJECT_DIR$/service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,14 +167,7 @@
       <workItem from="1609302361932" duration="446000" />
       <workItem from="1609323453863" duration="662000" />
       <workItem from="1609383235294" duration="10680000" />
-      <workItem from="1609668398215" duration="690000" />
-    </task>
-    <task id="LOCAL-00125" summary="updat otp">
-      <created>1608515004289</created>
-      <option name="number" value="00125" />
-      <option name="presentableId" value="LOCAL-00125" />
-      <option name="project" value="LOCAL" />
-      <updated>1608515004289</updated>
+      <workItem from="1609668398215" duration="812000" />
     </task>
     <task id="LOCAL-00126" summary="updat notify">
       <created>1608515038925</created>
@@ -513,7 +505,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609668402197</updated>
     </task>
-    <option name="localTasksCounter" value="174" />
+    <task id="LOCAL-00174" summary="update post">
+      <created>1609669100527</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1609669100527</updated>
+    </task>
+    <option name="localTasksCounter" value="175" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -536,7 +535,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/https:/github.com/huybinh0204/vietnails.cf.git" />
     </ignored-roots>
-    <MESSAGE value="update 3" />
     <MESSAGE value="update 4" />
     <MESSAGE value="update 5" />
     <MESSAGE value="update 6" />
@@ -561,7 +559,8 @@
     <MESSAGE value="updat otp" />
     <MESSAGE value="updat notify" />
     <MESSAGE value="updat nhuy don" />
-    <option name="LAST_COMMIT_MESSAGE" value="updat nhuy don" />
+    <MESSAGE value="update post" />
+    <option name="LAST_COMMIT_MESSAGE" value="update post" />
   </component>
   <component name="WindowStateProjectService">
     <state x="569" y="325" key="#Notifications" timestamp="1605786428245">
@@ -631,11 +630,11 @@
     </state>
     <state x="341" y="134" key="SettingsEditor/0.23.1680.942@0.23.1680.942" timestamp="1605783793864" />
     <state x="341" y="135" key="SettingsEditor/1680.23.1366.745/0.23.1680.947@0.23.1680.947" timestamp="1604476552538" />
-    <state x="440" y="235" key="Vcs.Push.Dialog.v2" timestamp="1609668411297">
+    <state x="440" y="235" key="Vcs.Push.Dialog.v2" timestamp="1609669105763">
       <screen x="0" y="23" width="1680" height="943" />
     </state>
     <state x="440" y="235" key="Vcs.Push.Dialog.v2/0.23.1680.942@0.23.1680.942" timestamp="1606360341880" />
-    <state x="440" y="235" key="Vcs.Push.Dialog.v2/0.23.1680.943@0.23.1680.943" timestamp="1609668411297" />
+    <state x="440" y="235" key="Vcs.Push.Dialog.v2/0.23.1680.943@0.23.1680.943" timestamp="1609669105763" />
     <state x="440" y="236" key="Vcs.Push.Dialog.v2/0.23.1680.947@0.23.1680.947" timestamp="1607736951502" />
     <state x="440" y="236" key="Vcs.Push.Dialog.v2/1680.23.1366.745/0.23.1680.947@0.23.1680.947" timestamp="1607928998129" />
     <state x="1680" y="23" width="1182" height="745" key="dock-window-1" timestamp="1607927750354">
