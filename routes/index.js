@@ -32,15 +32,21 @@ var upload = multer({storage: storage});
 var cron = require('node-cron');
 module.exports = function (app) {
     let UserCtrl = require('../controllers/User');
-    let ServiceCtrl = require('../controllers/Service_shop');
-    //order
-    let OrdersCtrl = require('../controllers/Orders');
-    let ScheduleCtrl = require('../controllers/Schedule');
     let LoginCtrl = require('../controllers/Login');
-    let NewsCtrl = require('../controllers/News_shop');
-    let RolesCtrl = require('../controllers/Roles');
-    let Schedule_historicalCtrl = require('../controllers/Schedule_historical');
+    let Post_ContentCtrl = require('../controllers/Post_Content');
+    let OrdersCtrl = require('../controllers/Orders');
+    let Order_StaffsCtrl = require('../controllers/Order_Staffs');
     let Notify_UserCtrl = require('../controllers/Notify_User');
+    let Service_TypeCtrl = require('../controllers/Nails_Service_Type');
+    let Nails_ServiceCtrl = require('../controllers/Nails_Service');
+    let Day_OffCtrl = require('../controllers/Day_Off');
+    //order
+
+    // let ScheduleCtrl = require('../controllers/Schedule');
+
+    // let RolesCtrl = require('../controllers/Roles');
+    // let Schedule_historicalCtrl = require('../controllers/Schedule_historical');
+
     // let NotificationCtrl = require('../controllers/Notification');
     // app.route('/')
     //     .get(UserCtrl._get)
@@ -50,8 +56,8 @@ module.exports = function (app) {
 // exit đăng nhập
 
 // danh sách quyền
-    app.route('/api/roles/')
-        .get(token_config.checkToken, RolesCtrl.get);
+//     app.route('/api/roles/')
+//         .get(token_config.checkToken, RolesCtrl.get);
 
 //    exit quyền
 
@@ -96,39 +102,24 @@ module.exports = function (app) {
 //    exit đăng ký tài khoản đổi mật khẩu quên mật khẩu
 
 
-// api service dich vu
-    app.route('/api/service/')
-        .get(token_config.checkToken, ServiceCtrl.get);
-
-    app.route('/api/service/delete/:serviceId')
-        .delete(token_config.checkToken, ServiceCtrl.delete);
-
-    app.route('/api/service/')
-        .post(token_config.checkToken, ServiceCtrl.store);
-
-    app.route('/api/service/edit/:serviceId')
-        .put(token_config.checkToken, ServiceCtrl.update);
-
 // baif viet
     // api News shop bài
-    app.route('/api/news_shop/')
-        .get(token_config.checkToken, NewsCtrl.get);
+    app.route('/api/post_content/')
+        .get(token_config.checkToken, Post_ContentCtrl.get_post_content);
 
-    app.route('/api/news_shop/:NewsShopId')
-        .get(token_config.checkToken, NewsCtrl.detail);
+    app.route('/api/post_content/:PostContentId')
+        .get(token_config.checkToken, Post_ContentCtrl.detail_post_content);
 
-    app.route('/api/news_shop/edit/:NewsShopId')
-        .put(token_config.checkToken, NewsCtrl.update);
+    app.route('/api/post_content/edit/:PostContentId')
+        .put(token_config.checkToken, Post_ContentCtrl.update_post_content);
 
-    app.route('/api/news_shop/delete/:NewsShopId')
-        .delete(token_config.checkToken, NewsCtrl.delete);
+    app.route('/api/post_content/delete/:PostContentId')
+        .delete(token_config.checkToken, Post_ContentCtrl.delete_post_content);
 
-    app.route('/api/news_shop/')
-        .post(token_config.checkToken, NewsCtrl.store);
+    app.route('/api/post_content/')
+        .post(token_config.checkToken, Post_ContentCtrl.store_post_content);
 
 // exit baif viet
-
-
 
 // api uploas ảnh
     app.route('/api/upload_file/')
@@ -145,21 +136,29 @@ module.exports = function (app) {
     app.route('/api/order/store_orders/')
         .post(OrdersCtrl.store_orders);
 
-    app.route('/api/schedule/get_date_time/')
-        .get(token_config.checkToken, ScheduleCtrl.get_date_time);
+    // thòi gian hiên thị chon
+    app.route('/api/order/open_settime_order/')
+        .get(OrdersCtrl.open_settime_order);
 
-    //list thoi gian dat licj
-    app.route('/api/schedule/:start_time')
-        .post(token_config.checkToken, ScheduleCtrl.Open_Schedule);
+    // thự động set nhân viênlàm nail
+    app.route('/api/order_staffs/')
+        .get(Order_StaffsCtrl.store_order_staffs);
 
-
-    //chi tiet hoas down
-    app.route('/api/schedule/:scheduleId')
-        .get(token_config.checkToken, ScheduleCtrl.detail);
-
-    //    status 0 , 1 ,2 , 3 , 4
-    app.route('/api/schedule_historical/:schedule_historicalID')
-        .post(token_config.checkToken, Schedule_historicalCtrl.store);
+    // app.route('/api/schedule/get_date_time/')
+    //     .get(token_config.checkToken, ScheduleCtrl.get_date_time);
+    //
+    // //list thoi gian dat licj
+    // app.route('/api/schedule/:start_time')
+    //     .post(token_config.checkToken, ScheduleCtrl.Open_Schedule);
+    //
+    //
+    // //chi tiet hoas down
+    // app.route('/api/schedule/:scheduleId')
+    //     .get(token_config.checkToken, ScheduleCtrl.detail);
+    //
+    // //    status 0 , 1 ,2 , 3 , 4
+    // app.route('/api/schedule_historical/:schedule_historicalID')
+    //     .post(token_config.checkToken, Schedule_historicalCtrl.store);
 
 
 //    exit hoá đơn
@@ -178,5 +177,46 @@ module.exports = function (app) {
     //     timezone: "Asia/Bangkok"
     // });
 //exit notify
+
+// loai dich vu
+    // danh sach loai dich vu
+    app.route('/api/get_service_type/')
+        .get(Service_TypeCtrl.get_service_type);
+
+    app.route('/api/service_type/edit/:PostContentId')
+        .put(Service_TypeCtrl.update_service_type);
+
+    app.route('/api/service_type/')
+        .post(Service_TypeCtrl.store_service_type);
+//exit loai dich vu
+// api service dich vu
+    app.route('/api/nails_service/')
+        .get( Nails_ServiceCtrl.get_service);
+
+    app.route('/api/nails_service/delete/:serviceId')
+        .delete(Nails_ServiceCtrl.delete_service);
+
+    app.route('/api/nails_service/')
+        .post(Nails_ServiceCtrl.store_service);
+
+    app.route('/api/nails_service/edit/:serviceId')
+        .put(Nails_ServiceCtrl.update_service);
+// exit api service dich vu
+
+//  làm đơn từ xin nghỉ
+
+    // danh sach đơn đuoc duyet
+    app.route('/api/day_off/')
+        .get(Day_OffCtrl.get_Day_Off);
+
+    app.route('/api/day_off/edit/:DayOffId')
+        .put(Day_OffCtrl.update_Day_Off);
+
+    app.route('/api/day_off/')
+        .post(Day_OffCtrl.store_Day_Off);
+
+    app.route('/api/day_off/delete/:DayOffId')
+        .delete(Day_OffCtrl.delete_Day_Off);
+//làm đơn từ xin nghỉ
 
 };

@@ -1,6 +1,6 @@
 module.exports = {
     id:'id',
     name: 'name',
-    type_roles: "type_roles",
+    image_st: 'image_st',
     created_at: 'created_at',
 }

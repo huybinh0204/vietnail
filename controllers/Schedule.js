@@ -330,65 +330,7 @@ module.exports = {
         }
     },
     // thoi gian dawt lich
-    Open_Schedule: (req, res, next) => {
-        let start_time = req.body.start_time;
-        let id_User = req.body.id_User;
-        if (start_time && id_User != undefined) {
-            let sql = `SELECT * FROM schedule WHERE start_time LIKE '${start_time}%' and schedule.id_User = ${id_User}`;
-            console.log("11", sql)
-            db.query(sql, [start_time, req.params.start_time], (err, rown, fields) => {
-                if (err) throw err
-                var derts = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00",
-                    "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30",
-                    "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"];
-                var objN = [];
-                var ArrSchedule;
-                for (var i = 0; i < derts.length; i++) {
-                    var x = derts[i];
-                    // console.log("111",x);
-                    if (rown.length > 0) {
-                        for (var k = 0; k < rown.length; k++) {
-                            var status = rown[k].status;
-                            var start_time = rown[k].start_time.toString();
-                            var end_time = rown[k].end_time.toString();
-                            var a = start_time.slice(16, 21);
-                            var b = end_time.slice(16, 21);
-                            if (x >= a && x <= b) {
-                                ArrSchedule = {
-                                    working_time: x,
-                                    start_time: rown[k].start_time,
-                                    end_time: rown[k].end_time,
-                                    status: status,
-                                };
-                                ArrSchedule && objN.push(ArrSchedule)
-                                break;
-                            } else {
-                                if (k == (rown.length - 1)) {
-                                    ArrSchedule = {
-                                        working_time: x,
-                                        status: 3,
-                                    };
-                                    ArrSchedule && objN.push(ArrSchedule)
-                                }
-                            }
-                        }
-                    } else {
-                        ArrSchedule = {
-                            working_time: x,
-                            status: 3,
-                        };
-                        ArrSchedule && objN.push(ArrSchedule)
-                    }
 
-                }
-                var ArrGetSchedule = [{"status": "200", message: 'schedule working time !', "data": objN}]
-                res.json(ArrGetSchedule);
-            })
-        } else {
-            res.json({"status": "400", message: 'schedule No Open_Schedule !',});
-
-        }
-    },
 
     // store: (req, res) => {
     //     var code_schedule = random_random.randomString(10);

@@ -1,6 +1,6 @@
 const db = require('../service');
 const moment = require('moment-timezone');
-const schedule_historical_model = require('../models/Schedule_historical_model');
+const schedule_historical_model = require('../models/Order_Staffs_model');
 var is_OFFSET = 0;
 var is_LIMIT = 10;
 var Eis_OFFSET;

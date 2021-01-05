@@ -99,9 +99,9 @@ module.exports = {
     },
     // check otp
     check_otp: (req, res) => {
-        let id_User = req.body.id_User;
+        let user_id = req.body.user_id;
         let otp = req.body.on_key;
-        let sql = `SELECT * FROM otp_code WHERE user_id = ${id_User} AND at_created LIKE "${time}%" ORDER BY id DESC LIMIT 1`;
+        let sql = `SELECT * FROM otp_code WHERE user_id = ${user_id} AND at_created LIKE "${time}%" ORDER BY id DESC LIMIT 1`;
         // console.log("sql check otp", sql)
         if (id_User != undefined && otp != '') {
             db.query(sql, (err, rown, response) => {

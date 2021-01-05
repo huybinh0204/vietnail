@@ -3,7 +3,9 @@ module.exports = {
     name_tn:'name_tn',
     phone_tn: 'phone_tn',
     user_id_tn: 'user_id_tn',
-    service_list_id: 'service_list_id',
+    moneys_od: 'moneys_od',
+    status_od: 'status_od',
+    nails_service_id: 'nails_service_id',
     orders_id: 'orders_id',
     created_od: 'created_od',
 }
