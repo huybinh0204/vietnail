@@ -174,12 +174,12 @@ module.exports = {
             let phone = req.body.phone;
             var url = `${random_random.esms_url}?Phone=${phone}&Content=${otp}&ApiKey=${random_random.ApiKey}&SecretKey=` +
                 `${random_random.SecretKey}&Brandname=${random_random.Brandname}&SmsType=${random_random.SmsType}`;
-            let data = req.body.id_roles;
+            let data = req.body.roles_id;
 
             if (rown == "" && data != undefined) {
                 let password = md5(req.body.password);
                 let fullName = req.body.fullName;
-                let id_roles = req.body.id_roles;
+                let roles_id = req.body.roles_id;
                 let id_Shop = req.body.id_Shop;
                 let email = req.body.email;
                 let is_status = 1;
@@ -193,7 +193,7 @@ module.exports = {
                                 phone,
                                 password,
                                 fullName,
-                                id_roles,
+                                roles_id,
                                 id_Shop,
                                 email,
                                 is_status, is_active
