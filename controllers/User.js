@@ -180,7 +180,6 @@ module.exports = {
                 let password = md5(req.body.password);
                 let fullName = req.body.fullName;
                 let roles_id = req.body.roles_id;
-                let id_Shop = req.body.id_Shop;
                 let email = req.body.email;
                 let is_status = 1;
                 let is_active = 2;
@@ -194,7 +193,6 @@ module.exports = {
                                 password,
                                 fullName,
                                 roles_id,
-                                id_Shop,
                                 email,
                                 is_status, is_active
                             }], (err, response) => {
@@ -267,7 +265,7 @@ module.exports = {
                                             var INSERTUser = {
                                                 [user_model.id]: rown[i].id,
                                                 [user_model.phone]: rown[i].phone,
-                                                [user_model.created_user]: rown[i].created_user
+                                                [user_model.created_us]: rown[i].created_us
                                             };
                                             obj.push(INSERTUser);
                                         }
