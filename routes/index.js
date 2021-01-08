@@ -199,8 +199,8 @@ module.exports = function (app) {
     app.route('/api/nails_service/delete/:serviceId')
         .delete(Nails_ServiceCtrl.delete_service);
 
-    app.route('/api/nails_service/')
-        .post(Nails_ServiceCtrl.store_service);
+    // app.route('/api/nails_service/')
+    //     .post(Nails_ServiceCtrl.store_service);
 
     app.route('/api/nails_service/edit/:serviceId')
         .put(Nails_ServiceCtrl.update_service);
