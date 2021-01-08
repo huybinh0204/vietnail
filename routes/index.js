@@ -48,6 +48,8 @@ module.exports = function (app) {
     // let Schedule_historicalCtrl = require('../controllers/Schedule_historical');
 
     // let NotificationCtrl = require('../controllers/Notification');
+
+
     app.route('/')
         .get(UserCtrl._get)
 // Login đăng nhập
