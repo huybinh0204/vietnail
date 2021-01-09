@@ -75,4 +75,33 @@ module.exports = {
             res.json({"status": "400", message: 'No!'});
         }
     },
+    get_order_details: (req, res) => {
+        let orders_id  = req.query.orders_id;
+        let sql = `SELECT * FROM order_details JOIN nails_service ON nails_service.id = order_details.nails_service_id WHERE orders_id = ${orders_id}`;
+        if (orders_id != undefined || "") {
+            db.query(sql, (err, rown, fields) => {
+                if (err) throw err
+                var obj = [];
+                for (var i = 0; i < rown.length; i++) {
+                    var ArrShop = {
+                        id: rown[i].id,
+                        name_tn: rown[i].name_tn,
+                        orders_id: rown[i].orders_id,
+                        moneys_od: rown[i].moneys_od,
+                        time_service: rown[i].time_service,
+                        title: rown[i].title,
+                        nails_service_id: rown[i].nails_service_id,
+                    };
+                    obj.push(ArrShop);
+                }
+                var _ArrShop = JSON.stringify(obj);
+                var ShopJson = JSON.parse(_ArrShop);
+                var ArrGetShop = [{"status": "200", message: 'nails_service_type OK!', "data": ShopJson}]
+                res.json(ArrGetShop);
+
+            })
+        }else {
+            res.json({"status": "400", message: 'No!'});
+        }
+    },
 }
