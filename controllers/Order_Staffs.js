@@ -36,4 +36,43 @@ module.exports = {
             // res.json(rown);
         })
     },
+    store_order_staffs_TN: (req, res) => {
+        let orders_id = req.body.orders_id;
+        let user_id_tn = req.body.user_id_tn;
+        let order_details_id = req.body.order_details_id;
+        let sql = `SELECT * FROM orders WHERE id = ${orders_id}`;
+        if (orders_id && user_id_tn != undefined || "") {
+            db.query(sql, (err, rown, fields) => {
+                if (err) throw err
+                let sql = `SELECT * FROM user WHERE id = ${user_id_tn}`;
+                db.query(sql, (err, rown, fields) => {
+                    if (err) throw err
+                    let name_tn = rown[0].fullname
+                    let phone_tn = rown[0].phone
+
+                    for (var k = 0; k < order_details_id.length; k++) {
+                        var nails_service_id = order_details_id[k].nails_service_id;
+                        var moneys_od = order_details_id[k].moneys_od;
+                        var data_schedule_details_n = {
+                            nails_service_id: nails_service_id,
+                            orders_id: orders_id,
+                            moneys_od: moneys_od,
+                            user_id_tn:user_id_tn,
+                            name_tn:name_tn,
+                            phone_tn:phone_tn
+                        }
+                        let is_sql_order_details = 'INSERT INTO order_details SET ?';
+                        db.query(is_sql_order_details, [data_schedule_details_n], (err, rown, fields) => {
+                            if (err) throw err
+                            console.log("OK")
+                        })
+                    }
+                    res.json({status: "200", message: 'order_details INSERT Ok!'});
+                })
+
+            })
+        }else {
+            res.json({"status": "400", message: 'No!'});
+        }
+    },
 }

@@ -143,6 +143,9 @@ module.exports = function (app) {
     // thự động set nhân viênlàm nail
     app.route('/api/order_staffs/')
         .get(Order_StaffsCtrl.store_order_staffs);
+    // store_order_staffs_TN thu ngan theem gio
+    app.route('/api/order_staffs/store_order_staffs/')
+        .post(Order_StaffsCtrl.store_order_staffs_TN);
     // thự động set nhân viênlàm nail
     app.route('/api/open_settime_order_don/')
         .get(OrdersCtrl.open_settime_order_don);
