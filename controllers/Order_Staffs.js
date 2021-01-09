@@ -9,16 +9,16 @@ module.exports = {
         db.query(sql, (err, rown, fields) => {
             if (err) throw err
             var user_id_nv = rown[0].id;
-            console.log("user_id_nv",user_id_nv)
+            console.log("user_id_nv", user_id_nv)
             let sql_orders = `SELECT * FROM orders WHERE status =0`;
             db.query(sql_orders, (err, rowns, fields) => {
                 if (err) throw err
                 var orders_id = rowns[0].id;
                 let data = {
-                    content:"",
-                    is_status:1,
-                    user_id_nv:user_id_nv,
-                    orders_id:orders_id
+                    content: "",
+                    is_status: 1,
+                    user_id_nv: user_id_nv,
+                    orders_id: orders_id
                 }
                 let sql_order_staffs = `INSERT INTO order_staffs SET ?`;
                 db.query(sql_order_staffs, [data], (err, response) => {
@@ -26,7 +26,7 @@ module.exports = {
                 })
                 let status_orders = 2;
                 let sql_update_orders = `UPDATE orders SET status = ${status_orders} WHERE id = ${orders_id}`;
-                console.log("sql_update_orders",sql_update_orders)
+                console.log("sql_update_orders", sql_update_orders)
                 db.query(sql_update_orders, (err, response) => {
                     if (err) throw err
                     console.log("ok")
@@ -57,9 +57,9 @@ module.exports = {
                             nails_service_id: nails_service_id,
                             orders_id: orders_id,
                             moneys_od: moneys_od,
-                            user_id_tn:user_id_tn,
-                            name_tn:name_tn,
-                            phone_tn:phone_tn
+                            user_id_tn: user_id_tn,
+                            name_tn: name_tn,
+                            phone_tn: phone_tn
                         }
                         let is_sql_order_details = 'INSERT INTO order_details SET ?';
                         db.query(is_sql_order_details, [data_schedule_details_n], (err, rown, fields) => {
@@ -71,12 +71,12 @@ module.exports = {
                 })
 
             })
-        }else {
+        } else {
             res.json({"status": "400", message: 'No!'});
         }
     },
     get_order_details: (req, res) => {
-        let orders_id  = req.query.orders_id;
+        let orders_id = req.query.orders_id;
         let sql = `SELECT * FROM order_details JOIN nails_service ON nails_service.id = order_details.nails_service_id WHERE orders_id = ${orders_id}`;
         if (orders_id != undefined || "") {
             db.query(sql, (err, rown, fields) => {
@@ -90,6 +90,7 @@ module.exports = {
                         moneys_od: rown[i].moneys_od,
                         time_service: rown[i].time_service,
                         title: rown[i].title,
+                        status_od: rown[i].status_od,
                         nails_service_id: rown[i].nails_service_id,
                     };
                     obj.push(ArrShop);
@@ -100,7 +101,44 @@ module.exports = {
                 res.json(ArrGetShop);
 
             })
-        }else {
+        } else {
+            res.json({"status": "400", message: 'No!'});
+        }
+    },
+    delete_order_details: (req, res) => {
+        let orders_id = req.body.orders_id;
+        let order_details = req.body.order_details_id;
+        let user_id_tn = req.body.user_id_tn;
+        let sql = `SELECT * FROM orders WHERE id = ${orders_id}`;
+        if (orders_id && user_id_tn && order_details != undefined || "") {
+            db.query(sql, (err, rown, fields) => {
+                if (err) throw err
+                let sql = `SELECT * FROM user WHERE id = ${user_id_tn}`;
+                db.query(sql, (err, rown, fields) => {
+                    if (err) throw err
+                    let name_tn = rown[0].fullname
+                    let phone_tn = rown[0].phone
+
+                    var data_schedule_details_n = {
+                        status_od: 1,
+                        user_id_tn: user_id_tn,
+                        name_tn: name_tn,
+                        phone_tn: phone_tn
+                    }
+                    for (var k = 0; k < order_details.length; k++) {
+                        var id = order_details[k].id;
+                        let sql = 'UPDATE order_details SET ? WHERE id = ?'
+                        db.query(sql, [data_schedule_details_n, id], (err, response) => {
+                            if (err) throw err
+
+                        })
+                    }
+                    res.json({"status": "200", shop: 'Xoa dich vu thanh cong!'})
+
+                })
+
+            })
+        } else {
             res.json({"status": "400", message: 'No!'});
         }
     },

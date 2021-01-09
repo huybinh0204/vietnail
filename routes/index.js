@@ -150,6 +150,12 @@ module.exports = function (app) {
     // store_order_staffs_TN thu ngan theem gio
     app.route('/api/get_order_details/')
         .get(Order_StaffsCtrl.get_order_details);
+
+
+    // store_order_staffs_TN thu ngan theem gio
+    app.route('/api/order_staffs/delete_order_details/')
+        .post(Order_StaffsCtrl.delete_order_details);
+
     // thự động set nhân viênlàm nail
     app.route('/api/open_settime_order_don/')
         .get(OrdersCtrl.open_settime_order_don);
