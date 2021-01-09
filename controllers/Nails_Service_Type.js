@@ -2,7 +2,7 @@ const db = require('../service');
 const service_type_model = require('../models/Nails_Service_Type_model');
 module.exports = {
     get_service_type: (req, res) => {
-        let sql = `SELECT * FROM service_type`;
+        let sql = `SELECT * FROM nails_service_type`;
         db.query(sql, (err, rown, fields) => {
             if (err) throw err
             var obj = [];
@@ -24,7 +24,7 @@ module.exports = {
     update_service_type: (req, res) => {
         let data = req.body;
         let ServiceTypeId = req.params.ServiceTypeId;
-        let sql = 'UPDATE service_type SET ? WHERE id = ?'
+        let sql = 'UPDATE nails_service_type SET ? WHERE id = ?'
         db.query(sql, [data, ServiceTypeId], (err, response) => {
             if (err) throw err
             res.json({"status": "200", shop: 'Update service_type success!'})
@@ -34,10 +34,10 @@ module.exports = {
         let data = req.body;
         console.log("qqq", JSON.stringify(data))
         if (JSON.stringify(data) != '{}') {
-            let sql = `INSERT INTO service_type SET ?`;
+            let sql = `INSERT INTO nails_service_type SET ?`;
             db.query(sql, [data], (err, response) => {
                 if (err) throw err
-                let _sqlSELECT = 'SELECT * FROM service_type ORDER BY id DESC LIMIT 1'
+                let _sqlSELECT = 'SELECT * FROM nails_service_type ORDER BY id DESC LIMIT 1'
                 db.query(_sqlSELECT, (err, rown, fields) => {
                     if (err) throw err
                     var obj = [];
@@ -52,12 +52,12 @@ module.exports = {
                     }
                     var _ArrShop = JSON.stringify(obj);
                     var ShopJson = JSON.parse(_ArrShop);
-                    var ArrGetShop = [{"status": "200", message: 'service_type INSERT Ok!', "data": ShopJson}]
+                    var ArrGetShop = [{"status": "200", message: 'nails_service_type INSERT Ok!', "data": ShopJson}]
                     res.json(ArrGetShop);
                 })
             })
         } else {
-            res.json({"status": "400", message: 'service_type No INSERT !'});
+            res.json({"status": "400", message: 'nails_service_type No INSERT !'});
         }
     },
     // delete_service_type: (req, res) => {
