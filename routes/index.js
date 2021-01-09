@@ -48,8 +48,8 @@ module.exports = function (app) {
     // let Schedule_historicalCtrl = require('../controllers/Schedule_historical');
 
     // let NotificationCtrl = require('../controllers/Notification');
-    // app.route('/')
-    //     .get(UserCtrl._get)
+    app.route('/')
+        .get(UserCtrl._get)
 // Login đăng nhập
     app.route('/api/login/')
         .post(LoginCtrl.login_user);
@@ -199,8 +199,8 @@ module.exports = function (app) {
     app.route('/api/nails_service/delete/:serviceId')
         .delete(Nails_ServiceCtrl.delete_service);
 
-    // app.route('/api/nails_service/')
-    //     .post(Nails_ServiceCtrl.store_service);
+    app.route('/api/nails_service/')
+        .post(Nails_ServiceCtrl.store_service);
 
     app.route('/api/nails_service/edit/:serviceId')
         .put(Nails_ServiceCtrl.update_service);
