@@ -1,9 +1,9 @@
 const db = require('../service');
 const nails_service_model = require('../models/Nails_Service_model');
 module.exports = {
-    get_service: (req, res) => {
-        let service_type_id  = req.query.id;
-        let sql = `SELECT * FROM nails_service where service_type_id  = ${service_type_id}`;
+     get_service: (req, res) => {
+        // let service_type_id  = req.query.id;
+        let sql = `SELECT * FROM nails_service WHERE is_status = 0`;
         db.query(sql, (err, rown, fields) => {
             if (err) throw err
             var obj = [];
@@ -14,6 +14,7 @@ module.exports = {
                     [nails_service_model.content]: rown[i].content,
                     [nails_service_model.moneys_sv]: rown[i].moneys_sv,
                     [nails_service_model.image]: rown[i].image,
+                    [nails_service_model.service_type_id]: rown[i].service_type_id ,
                     [nails_service_model.time_service]: rown[i].time_service,
                 };
                 obj.push(Arrservice);
