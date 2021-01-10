@@ -37,8 +37,9 @@ module.exports = {
             var serviceJson = JSON.parse(_Arrservice);
             var ArrGetservice = [{"status": "200", "data": serviceJson}]
             res.json(ArrGetservice);
+        })
         
-    },
+    }, 
     update_service: (req, res) => {
         let data = req.body;
         let serviceId = req.params.serviceId;
