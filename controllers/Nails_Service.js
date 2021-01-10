@@ -2,27 +2,43 @@ const db = require('../service');
 const nails_service_model = require('../models/Nails_Service_model');
 module.exports = {
     get_service: (req, res) => {
-        let service_type_id  = req.query.id;
-        let sql = `SELECT * FROM nails_service where service_type_id  = ${service_type_id}`;
-        db.query(sql, (err, rown, fields) => {
+        // let service_type_id  = req.query.id;
+        let sql = `SELECT * FROM nails_service_type`;
+        db.query(sql, (err, rowns, fields) => {
             if (err) throw err
             var obj = [];
-            for (var i = 0; i < rown.length; i++) {
-                var Arrservice = {
-                    [nails_service_model.id]: rown[i].id,
-                    [nails_service_model.title]: rown[i].title,
-                    [nails_service_model.content]: rown[i].content,
-                    [nails_service_model.moneys_sv]: rown[i].moneys_sv,
-                    [nails_service_model.image]: rown[i].image,
-                    [nails_service_model.time_service]: rown[i].time_service,
+            for(var l = 0 ; l < rowns.length; l++){
+                var service_type_id = rowns[l].id
+                var objn =[];
+                let sql = `SELECT * FROM nails_service WHERE is_status = 0 and service_type_id = ${service_type_id}`;
+                db.query(sql, (err, rown, fields) => {
+                    if (err) throw err
+                    for (var i = 0; i < rown.length; i++) {
+                        var Arrservice = {
+                            [nails_service_model.id]: rown[i].id,
+                            [nails_service_model.title]: rown[i].title,
+                            [nails_service_model.content]: rown[i].content,
+                            [nails_service_model.moneys_sv]: rown[i].moneys_sv,
+                            [nails_service_model.image]: rown[i].image,
+                            [nails_service_model.service_type_id]: rown[i].service_type_id ,
+                            [nails_service_model.time_service]: rown[i].time_service,
+                        };
+                        objn.push(Arrservice);
+                    }
+
+                })
+                var Arrservicek = {
+                    [nails_service_model.id]:service_type_id,
+                    nails_service_type: objn,
                 };
-                obj.push(Arrservice);
+                obj.push(Arrservicek);
             }
             var _Arrservice = JSON.stringify(obj);
             var serviceJson = JSON.parse(_Arrservice);
             var ArrGetservice = [{"status": "200", "data": serviceJson}]
             res.json(ArrGetservice);
         })
+
     },
     update_service: (req, res) => {
         let data = req.body;
