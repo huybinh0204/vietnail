@@ -32,9 +32,15 @@ module.exports = {
     },
     store_service_type: (req, res) => {
         let data = req.body;
-        console.log("qqq", JSON.stringify(data))
-        if (JSON.stringify(data) != '{}') {
+
+        // if (JSON.stringify(data) != '{}') {
+        let name = req.body.name;
+        let image_st = req.body.image_st;
+        console.log("name",name)
+        console.log("image",image_st)
+        if (image_st && name != null || undefined) {
             let sql = `INSERT INTO nails_service_type SET ?`;
+            console.log("sql",sql)
             db.query(sql, [data], (err, response) => {
                 if (err) throw err
                 let _sqlSELECT = 'SELECT * FROM nails_service_type ORDER BY id DESC LIMIT 1'
