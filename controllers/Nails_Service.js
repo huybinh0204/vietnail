@@ -6,40 +6,83 @@ module.exports = {
         let sql = `SELECT * FROM nails_service_type`;
         db.query(sql, (err, rowns, fields) => {
             if (err) throw err
-            var obj = [];
-            for(var l = 0 ; l < rowns.length; l++){
-                var service_type_id = rowns[l].id
-                var objn =[];
-                let sql = `SELECT * FROM nails_service WHERE is_status = 0 and service_type_id = ${service_type_id}`;
-                db.query(sql, (err, rown, fields) => {
+                var sql_a = `SELECT * FROM nails_service WHERE is_status = 0`;
+                db.query(sql_a, (err, rown, fields) => {
                     if (err) throw err
-                    for (var i = 0; i < rown.length; i++) {
-                        var Arrservice = {
-                            [nails_service_model.id]: rown[i].id,
-                            [nails_service_model.title]: rown[i].title,
-                            [nails_service_model.content]: rown[i].content,
-                            [nails_service_model.moneys_sv]: rown[i].moneys_sv,
-                            [nails_service_model.image]: rown[i].image,
-                            [nails_service_model.service_type_id]: rown[i].service_type_id ,
-                            [nails_service_model.time_service]: rown[i].time_service,
+                    var objn =[];
+                    for (var l=0;l<rowns.length;l++) {
+                        var service_type_id = rowns[l].id
+                        console.log("service_type_id",service_type_id)
+                        var obj =[];
+                        for (var i = 0; i < rown.length; i++) {
+                            if (service_type_id == rown[i].service_type_id) {
+                                var Arrservice = {
+                                    [nails_service_model.id]: rown[i].id,
+                                    [nails_service_model.title]: rown[i].title,
+                                    [nails_service_model.content]: rown[i].content,
+                                    [nails_service_model.moneys_sv]: rown[i].moneys_sv,
+                                    [nails_service_model.image]: rown[i].image,
+                                    [nails_service_model.service_type_id]: rown[i].service_type_id,
+                                    [nails_service_model.time_service]: rown[i].time_service,
+                                };
+                                obj.push(Arrservice);
+                            }
+                        }
+                        var Arrservicek = {
+                            [nails_service_model.id]: service_type_id,
+                            service_nails: obj,
                         };
-                        objn.push(Arrservice);
-                    }
+                        objn.push(Arrservicek);
 
+                    }
+                    var _Arrservice = JSON.stringify(objn);
+                    var serviceJson = JSON.parse(_Arrservice);
+                    var ArrGetservice = [{"status": "200", "data": serviceJson}]
+                    res.json(ArrGetservice);
                 })
-                var Arrservicek = {
-                    [nails_service_model.id]:service_type_id,
-                    nails_service_type: objn,
-                };
-                obj.push(Arrservicek);
-            }
-            var _Arrservice = JSON.stringify(obj);
-            var serviceJson = JSON.parse(_Arrservice);
-            var ArrGetservice = [{"status": "200", "data": serviceJson}]
-            res.json(ArrGetservice);
+
+
         })
 
     },
+            //var obj = [];
+            // for(var l = 0 ; l < rowns.length; l++){
+            //     var service_type_id = rowns[l].id
+            //
+            //     var objv = [];
+            //     db.query(`SELECT * FROM nails_service WHERE is_status = 0 and service_type_id = ${service_type_id}`, (err, rown, fields) => {
+            //         if (err) throw err
+            //         objv.push(rown)
+            //         // var objn =[];
+            //         // for (var i = 0; i < rown.length; i++) {
+            //         //     var Arrservice = {
+            //         //         [nails_service_model.id]: rown[i].id,
+            //         //         [nails_service_model.title]: rown[i].title,
+            //         //         [nails_service_model.content]: rown[i].content,
+            //         //         [nails_service_model.moneys_sv]: rown[i].moneys_sv,
+            //         //         [nails_service_model.image]: rown[i].image,
+            //         //         [nails_service_model.service_type_id]: rown[i].service_type_id ,
+            //         //         [nails_service_model.time_service]: rown[i].time_service,
+            //         //     };
+            //         //     objn.push(Arrservice);
+            //         // }
+            //
+            //     })
+            //
+            //     obj.push({
+            //         service_type_id:service_type_id,
+            //         nails_service:[{objv
+            //         }
+            //         ]
+            //     })
+            //
+            // }
+            // // console.log("obj",obj)
+            // // var _Arrservice = JSON.stringify(obj);
+            // // var serviceJson = JSON.parse(_Arrservice);
+            // // var ArrGetservice = [{"status": "200", "data": serviceJson}]
+            // res.send(obj);
+
     update_service: (req, res) => {
         let data = req.body;
         let serviceId = req.params.serviceId;
@@ -78,7 +121,7 @@ module.exports = {
                     }
                     var _Arrservice = JSON.stringify(obj);
                     var serviceJson = JSON.parse(_Arrservice);
-                    var ArrGetservice = [{"status": "200",message: 'nails_service INSERT Ok!', "data": serviceJson}]
+                    var ArrGetservice = [{"status": "200", message: 'nails_service INSERT Ok!', "data": serviceJson}]
                     res.json(ArrGetservice);
                 })
             })
@@ -87,9 +130,9 @@ module.exports = {
         }
     },
     delete_service: (req, res) => {
-        let data = {is_status:1}
+        let data = {is_status: 1}
         let sql = 'UPDATE nails_service SET ? WHERE id = ?'
-        db.query(sql, [data,req.params.serviceId], (err, response) => {
+        db.query(sql, [data, req.params.serviceId], (err, response) => {
             if (err) throw err
             res.json({"status": "200", shop: 'Delete service_type success!'})
         })
