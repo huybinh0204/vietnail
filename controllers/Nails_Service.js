@@ -29,7 +29,7 @@ module.exports = {
                             }
                         }
                         var Arrservicek = {
-                            [nails_service_model.id]: service_type_id,
+                            id_stype: service_type_id,
                             service_nails: obj,
                         };
                         objn.push(Arrservicek);
