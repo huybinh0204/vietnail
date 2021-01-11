@@ -2,7 +2,7 @@ const db = require('../service');
 const service_type_model = require('../models/Nails_Service_Type_model');
 module.exports = {
     get_service_type: (req, res) => {
-        let sql = `SELECT * FROM nails_service_type`;
+        let sql = `SELECT * FROM nails_service_type where status_st =0`;
         db.query(sql, (err, rown, fields) => {
             if (err) throw err
             var obj = [];
@@ -60,12 +60,19 @@ module.exports = {
             res.json({"status": "400", message: 'nails_service_type No INSERT !'});
         }
     },
-    // delete_service_type: (req, res) => {
-    //     let sql = 'DELETE FROM service_type WHERE id = ?'
-    //     db.query(sql, [req.params.PostContentId], (err, response) => {
-    //         if (err) throw err
-    //         res.json({"status": "200", shop: 'Delete service_type success!'})
-    //     })
-    // }
+    delete_service_type: (req, res) => {
+        let status_st = 1;
+        let ServiceTypeId = req.params.ServiceTypeId;
+        let sql = 'UPDATE nails_service_type SET ? WHERE id = ?'
+        // db.query(sql, [data, ServiceTypeId], (err, response) => {
+        //     if (err) throw err
+        //     res.json({"status": "200", shop: 'Update service_type success!'})
+        // })
+        // let sql = 'DELETE FROM service_type WHERE id = ?'
+        db.query(sql, [{status_st}, ServiceTypeId], (err, response) => {
+            if (err) throw err
+            res.json({"status": "200", shop: 'Delete service_type success!'})
+        })
+    }
 }
 

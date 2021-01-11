@@ -199,11 +199,14 @@ module.exports = function (app) {
     app.route('/api/get_service_type/')
         .get(Service_TypeCtrl.get_service_type);
 
-    app.route('/api/service_type/edit/:PostContentId')
+    app.route('/api/service_type/edit/:ServiceTypeId')
         .put(Service_TypeCtrl.update_service_type);
 
     app.route('/api/service_type/')
         .post(Service_TypeCtrl.store_service_type);
+
+    app.route('/api/service_type/delete/:ServiceTypeId')
+        .delete(Service_TypeCtrl.delete_service_type);
 //exit loai dich vu
 // api service dich vu
     app.route('/api/nails_service/')
