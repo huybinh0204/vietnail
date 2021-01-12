@@ -163,7 +163,10 @@ module.exports = function (app) {
     // thự động set nhân viênlàm nail
     app.route('/api/get_list_time/')
         .get(OrdersCtrl.get_list_time);
-
+        
+ // thự động set nhân viênlàm nail
+    app.route('/api/get_orders_list/:user_id_kh')
+        .get(OrdersCtrl.get_orders_list);
     // //    status 0 , 1 ,2 , 3 , 4
     // app.route('/api/schedule_historical/:schedule_historicalID')
     //     .post(token_config.checkToken, Schedule_historicalCtrl.store);

@@ -31,6 +31,33 @@ module.exports = {
             res.json(ArrGetSchedule);
         })
     },
+    get_orders_list: (req, res) => {
+        let user_id_kh  = req.params.user_id_kh;
+        let sql = `SELECT * FROM orders where user_id_kh = ${user_id_kh}`;
+        db.query(sql,[user_id_kh], (err, rown, fields) => {
+            if (err) throw err
+            var obj = [];
+            for (var i = 0; i < rown.length; i++) {
+                var ArrSchedule = {
+                    id: rown[i].id,
+                    code_order: rown[i].code_order,
+                    start_time: rown[i].start_time,
+                    content_order: rown[i].content_order,
+                    moneys: rown[i].moneys,
+                    status: rown[i].status,
+                    phone_kh: rown[i].phone_kh,
+                    name_kh: rown[i].fullname,
+                    user_id_kh: rown[i].user_id_kh,
+                    created_order: rown[i].created_order,
+                };
+                obj.push(ArrSchedule);
+            }
+            var _ArrSchedule = JSON.stringify(obj);
+            var ScheduleJson = JSON.parse(_ArrSchedule);
+            var ArrGetSchedule = [{"status": "200", "data": ScheduleJson}]
+            res.json(ArrGetSchedule);
+        })
+    },
     store_orders: (req, res) => {
         var code_order = random_random.randomString(10);
         let start_time = req.body.start_time;
