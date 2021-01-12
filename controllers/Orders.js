@@ -251,7 +251,7 @@ module.exports = {
     open_settime_order_don: (req, res, next) => {
         // let start_time = req.body.start_time;
         let start_time  = req.query.start_time;
-        let sql = `SELECT * FROM orders WHERE start_time LIKE '2021-01-06%'`;
+        let sql = `SELECT * FROM orders WHERE start_time LIKE '${start_time}%'`;
         console.log("11", sql)
         db.query(sql, [start_time], (err, rown, fields) => {
             if (err) throw err
@@ -273,7 +273,7 @@ module.exports = {
                         if (x >= a && x <= b) {
                             ArrSchedule = {
                                 start_time: x,
-                                status: status,
+                                status: 0,
                             };
                             ArrSchedule && objN.push(ArrSchedule)
                             break;
@@ -281,7 +281,7 @@ module.exports = {
                             if (k == (rown.length - 1)) {
                                 ArrSchedule = {
                                     start_time: x,
-                                    status: 3,
+                                    status: 1,
                                 };
                                 ArrSchedule && objN.push(ArrSchedule)
                             }
@@ -290,7 +290,7 @@ module.exports = {
                 } else {
                     ArrSchedule = {
                         start_time: x,
-                        status: 3,
+                        status: 1,
                     };
                     ArrSchedule && objN.push(ArrSchedule)
                 }
