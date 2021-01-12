@@ -137,8 +137,8 @@ module.exports = function (app) {
         .post(OrdersCtrl.store_orders);
 
     // thòi gian hiên thị chon
-    // app.route('/api/order/open_settime_order/')
-    //     .get(OrdersCtrl.open_settime_order);
+    app.route('/api/order/open_settime_order/')
+        .get(OrdersCtrl.open_settime_order);
 
     // thự động set nhân viênlàm nail
     app.route('/api/order_staffs/')
@@ -160,18 +160,10 @@ module.exports = function (app) {
     app.route('/api/open_settime_order_don/')
         .get(OrdersCtrl.open_settime_order_don);
 
-    // app.route('/api/schedule/get_date_time/')
-    //     .get(token_config.checkToken, ScheduleCtrl.get_date_time);
-    //
-    // //list thoi gian dat licj
-    // app.route('/api/schedule/:start_time')
-    //     .post(token_config.checkToken, ScheduleCtrl.Open_Schedule);
-    //
-    //
-    // //chi tiet hoas down
-    // app.route('/api/schedule/:scheduleId')
-    //     .get(token_config.checkToken, ScheduleCtrl.detail);
-    //
+    // thự động set nhân viênlàm nail
+    app.route('/api/get_list_time/')
+        .get(OrdersCtrl.get_list_time);
+
     // //    status 0 , 1 ,2 , 3 , 4
     // app.route('/api/schedule_historical/:schedule_historicalID')
     //     .post(token_config.checkToken, Schedule_historicalCtrl.store);
