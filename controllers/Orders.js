@@ -58,6 +58,32 @@ module.exports = {
             res.json(ArrGetSchedule);
         })
     },
+    get_orders_status: (req, res) => {
+        let sql = `SELECT * FROM orders WHERE status = 4`;
+        db.query(sql, (err, rown, fields) => {
+            if (err) throw err
+            var obj = [];
+            for (var i = 0; i < rown.length; i++) {
+                var ArrSchedule = {
+                    id: rown[i].id,
+                    code_order: rown[i].code_order,
+                    start_time: rown[i].start_time,
+                    title: rown[i].title,
+                    moneys: rown[i].moneys,
+                    phone_nv: rown[i].phone_nv,
+                    status: rown[i].status,
+                    fullName_nv: rown[i].fullName_nv,
+                    content_order: rown[i].content_order,
+                    name_kh: rown[i].name_kh,
+                };
+                obj.push(ArrSchedule);
+            }
+            var _ArrSchedule = JSON.stringify(obj);
+            var ScheduleJson = JSON.parse(_ArrSchedule);
+            var ArrGetSchedule = [{"status": "200", "data": ScheduleJson}]
+            res.json(ArrGetSchedule);
+        })
+    },
     store_orders: (req, res) => {
         var code_order = random_random.randomString(10);
         let start_time = req.body.start_time;
