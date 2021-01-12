@@ -129,8 +129,8 @@ module.exports = function (app) {
 
 // hoá đơn
     // api schedule taats car hoas ddown
-    app.route('/api/get_orders/')
-        .get(token_config.checkToken, OrdersCtrl.get_orders);
+    app.route('/api/get_orders/:orders_id')
+        .get(OrdersCtrl.get_orders);
 
     // tao hoas don
     app.route('/api/order/store_orders/')
@@ -139,6 +139,10 @@ module.exports = function (app) {
     // thòi gian hiên thị chon
     app.route('/api/order/open_settime_order/')
         .get(OrdersCtrl.open_settime_order);
+
+    // thòi gian hiên thị chon
+    app.route('/api/get_orders_list/:user_id_kh')
+        .get(OrdersCtrl.get_orders_list);
 
     // thự động set nhân viênlàm nail
     app.route('/api/order_staffs/')

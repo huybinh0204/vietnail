@@ -5,23 +5,52 @@ var moment = require('moment-timezone');
 var year = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD");
 module.exports = {
     get_orders: (req, res) => {
-        let sql = `SELECT schedule.id,code_schedule,minus_point,moneys,start_time, schedule.fullName AS fullName_nv,phone_nv,schedule_details.working_time as fullName_kh,phone_kh ,status,content_schedule FROM schedule JOIN schedule_details ON schedule.id = schedule_details.id_Schedule where status = 4 GROUP BY schedule.id`;
-        db.query(sql, (err, rown, fields) => {
+        let orders_id = req.params.orders_id;
+        let sql = `SELECT * FROM order_details JOIN order_staffs ON order_staffs.orders_id = order_details.orders_id JOIN user ON user.id = order_staffs.user_id_nv JOIN nails_service ON nails_service.id = order_details.nails_service_id JOIN orders ON orders.id = order_details.orders_id where orders.id = ${orders_id}`;
+        db.query(sql,[orders_id], (err, rown, fields) => {
             if (err) throw err
             var obj = [];
             for (var i = 0; i < rown.length; i++) {
                 var ArrSchedule = {
                     id: rown[i].id,
-                    code_schedule: rown[i].code_schedule,
+                    code_order: rown[i].code_order,
                     start_time: rown[i].start_time,
+                    title: rown[i].title,
                     moneys: rown[i].moneys,
-                    minus_point: rown[i].minus_point,
                     phone_nv: rown[i].phone_nv,
                     status: rown[i].status,
                     fullName_nv: rown[i].fullName_nv,
-                    content_schedule: rown[i].content_schedule,
-                    fullName_kh: rown[i].fullName_kh,
-                    phone_kh: rown[i].phone_kh,
+                    content_order: rown[i].content_order,
+                    name_kh: rown[i].name_kh,
+                    fullname_nv: rown[i].fullname,
+                };
+                obj.push(ArrSchedule);
+            }
+            var _ArrSchedule = JSON.stringify(obj);
+            var ScheduleJson = JSON.parse(_ArrSchedule);
+            var ArrGetSchedule = [{"status": "200", "data": ScheduleJson}]
+            res.json(ArrGetSchedule);
+        })
+    },
+    get_orders_list: (req, res) => {
+        let user_id_kh = req.params.user_id_kh;
+        let sql = `SELECT * FROM orders WHERE user_id_kh = ${user_id_kh} `;
+        db.query(sql,[user_id_kh], (err, rown, fields) => {
+            if (err) throw err
+            var obj = [];
+            for (var i = 0; i < rown.length; i++) {
+                var ArrSchedule = {
+                    id: rown[i].id,
+                    code_order: rown[i].code_order,
+                    start_time: rown[i].start_time,
+                    title: rown[i].title,
+                    moneys: rown[i].moneys,
+                    phone_nv: rown[i].phone_nv,
+                    status: rown[i].status,
+                    fullName_nv: rown[i].fullName_nv,
+                    content_order: rown[i].content_order,
+                    name_kh: rown[i].name_kh,
+                    fullname_nv: rown[i].fullname,
                 };
                 obj.push(ArrSchedule);
             }
