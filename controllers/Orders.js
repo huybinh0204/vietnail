@@ -7,6 +7,7 @@ module.exports = {
     get_orders: (req, res) => {
         let orders_id = req.params.orders_id;
         let sql = `SELECT * FROM order_details JOIN nails_service ON nails_service.id = order_details.nails_service_id JOIN orders ON orders.id = order_details.orders_id where orders.id = ${orders_id}`;
+        console.log("111",sql)
         db.query(sql,[orders_id], (err, rown, fields) => {
             if (err) throw err
             var obj = [];
