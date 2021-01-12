@@ -6,7 +6,7 @@ var year = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD");
 module.exports = {
     get_orders: (req, res) => {
         let orders_id = req.params.orders_id;
-        let sql = `SELECT * FROM order_details JOIN order_staffs ON order_staffs.orders_id = order_details.orders_id JOIN user ON user.id = order_staffs.user_id_nv JOIN nails_service ON nails_service.id = order_details.nails_service_id JOIN orders ON orders.id = order_details.orders_id where orders.id = ${orders_id}`;
+        let sql = `SELECT * FROM order_details JOIN nails_service ON nails_service.id = order_details.nails_service_id JOIN orders ON orders.id = order_details.orders_id where orders.id = ${orders_id}`;
         db.query(sql,[orders_id], (err, rown, fields) => {
             if (err) throw err
             var obj = [];
@@ -17,12 +17,9 @@ module.exports = {
                     start_time: rown[i].start_time,
                     title: rown[i].title,
                     moneys: rown[i].moneys,
-                    phone_nv: rown[i].phone_nv,
                     status: rown[i].status,
-                    fullName_nv: rown[i].fullName_nv,
                     content_order: rown[i].content_order,
                     name_kh: rown[i].name_kh,
-                    fullname_nv: rown[i].fullname,
                 };
                 obj.push(ArrSchedule);
             }
