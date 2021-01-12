@@ -272,7 +272,7 @@ module.exports = {
                         if (x >= a && x <= b) {
                             ArrSchedule = {
                                 start_time: x,
-                                status: 0,
+                                // status: 0,
                             };
                             ArrSchedule && objN.push(ArrSchedule)
                             break;
@@ -280,7 +280,7 @@ module.exports = {
                             if (k == (rown.length - 1)) {
                                 ArrSchedule = {
                                     start_time: x,
-                                    status: 1,
+                                    // status: 1,
                                 };
                                 ArrSchedule && objN.push(ArrSchedule)
                             }
@@ -289,7 +289,7 @@ module.exports = {
                 } else {
                     ArrSchedule = {
                         start_time: x,
-                        status: 1,
+                        // status: 1,
                     };
                     ArrSchedule && objN.push(ArrSchedule)
                 }
