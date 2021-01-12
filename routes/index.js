@@ -137,8 +137,8 @@ module.exports = function (app) {
         .post(OrdersCtrl.store_orders);
 
     // thòi gian hiên thị chon
-    app.route('/api/order/open_settime_order/')
-        .get(OrdersCtrl.open_settime_order);
+    // app.route('/api/order/open_settime_order/')
+    //     .get(OrdersCtrl.open_settime_order);
 
     // thự động set nhân viênlàm nail
     app.route('/api/order_staffs/')

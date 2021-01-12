@@ -115,100 +115,100 @@ module.exports = {
         }
     },
     //sét thời gian làm nails
-    open_settime_order: (req, res, next) => {
-        var derts = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00",
-            "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30",
-            "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"];
-        let start_time = "2021-01-06%"
-        // nhaan vieen ddi lamf
-        let sql = `SELECT * FROM user WHERE id NOT IN (SELECT user_id_nv FROM day_off WHERE day_off.end_date >= '${start_time}' and day_off.begin_date <= '${start_time}') and roles_id = 2 and is_active =0`;
-        db.query(sql, (err, rown, fields) => {
-            if (err) throw err
-            // hoas don khach hang tao
-            let sql_orders = `SELECT * FROM orders WHERE start_time LIKE '${start_time}' and status = 0`;
-            db.query(sql_orders, (err, rowns, fields) => {
-                if (err) throw err
-                for (var m = 0; m < rown.length; m++) {
-                    var user_id_nv = rown[m].id;
-                    console.log("user_id_nv", user_id_nv)
-                    // khung gio nhaan vieen lamf
-                    let sql_order_staffs = `SELECT * FROM order_staffs JOIN orders ON orders.id = order_staffs.orders_id WHERE start_time LIKE '${start_time}' and user_id_nv =${user_id_nv}`;
-                    db.query(sql_order_staffs, (err, rownl, fields) => {
-                        if (err) throw err
-                        if (rown && rowns && rownl != '') {
-                            for (var i = 0; i < derts.length; i++) {
-                                var x = derts[i];
-                                for (var k = 0; k < rownl.length; k++) {
-                                    var start_time = rownl[k].start_time.toString();
-                                    var end_time = rownl[k].end_time.toString();
-                                    var a = start_time.slice(16, 21);
-                                    var b = end_time.slice(16, 21);
-                                    if (x >= a && x <= b) {
-                                        ArrSchedule = {
-                                            working_time: x,
-                                            user_id_nv: rownl[k].user_id_nv
-                                        };
-                                        for (var n=0 ; n < rowns.length ; n++){
-                                            console.log()
-                                            var status = rowns[k].status;
-                                            var rowns_start_time = rowns[n].start_time.toString();
-                                            var rowns_end_time = rowns[n].end_time.toString();
-                                            var is_rowns_start_time = rowns_start_time.slice(16, 21);
-                                            var is_rowns_end_time = rowns_end_time.slice(16, 21);
-                                            if (x >= is_rowns_start_time && x <= is_rowns_end_time) {
-                                                is_ArrSchedule = {
-                                                    working_time: x,
-                                                    status: status,
-                                                    user_id_nv: rowns[n].user_id_nv
-                                                };
-                                                console.log("is_ArrSchedule", is_ArrSchedule)
-                                                console.log("ArrSchedule", ArrSchedule)
-                                                break;
-                                            }
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
-                            // nhaan vieen ddi lam
-                            // console.log("rown", rown)
-                            // // ddown hang khach hang tao
-                            // console.log("rowns", rowns)
-                            // // ddown hangf nhan vieen lam
-                            // console.log("rownl", rownl)
-
-
-                        }
-
-                    })
-                }
-                // if (rowns != '') {
-                //
-                //     for (var i = 0; i < derts.length; i++) {
-                //         var x = derts[i];
-                //         for (var k = 0; k < rowns.length; k++) {
-                //             var status = rowns[k].status;
-                //             var start_time = rowns[k].start_time.toString();
-                //             var end_time = rowns[k].end_time.toString();
-                //             var a = start_time.slice(16, 21);
-                //             var b = end_time.slice(16, 21);
-                //             if (x >= a && x <= b) {
-                //                 ArrSchedule = {
-                //                     working_time: x,
-                //                     status: status,
-                //                     user_id_nv:rowns[k].user_id_nv
-                //                 };
-                //                 console.log("1212",ArrSchedule)
-                //                 break;
-                //             }
-                //         }
-                //     }
-                // }
-            })
-
-
-        })
-    },
+    // open_settime_order: (req, res, next) => {
+    //     var derts = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00",
+    //         "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30",
+    //         "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"];
+    //     let start_time = "2021-01-06%"
+    //     // nhaan vieen ddi lamf
+    //     let sql = `SELECT * FROM user WHERE id NOT IN (SELECT user_id_nv FROM day_off WHERE day_off.end_date >= '${start_time}' and day_off.begin_date <= '${start_time}') and roles_id = 2 and is_active =0`;
+    //     db.query(sql, (err, rown, fields) => {
+    //         if (err) throw err
+    //         // hoas don khach hang tao
+    //         let sql_orders = `SELECT * FROM orders WHERE start_time LIKE '${start_time}' and status = 0`;
+    //         db.query(sql_orders, (err, rowns, fields) => {
+    //             if (err) throw err
+    //             for (var m = 0; m < rown.length; m++) {
+    //                 var user_id_nv = rown[m].id;
+    //                 console.log("user_id_nv", user_id_nv)
+    //                 // khung gio nhaan vieen lamf
+    //                 let sql_order_staffs = `SELECT * FROM order_staffs JOIN orders ON orders.id = order_staffs.orders_id WHERE start_time LIKE '${start_time}' and user_id_nv =${user_id_nv}`;
+    //                 db.query(sql_order_staffs, (err, rownl, fields) => {
+    //                     if (err) throw err
+    //                     if (rown && rowns && rownl != '') {
+    //                         for (var i = 0; i < derts.length; i++) {
+    //                             var x = derts[i];
+    //                             for (var k = 0; k < rownl.length; k++) {
+    //                                 var start_time = rownl[k].start_time.toString();
+    //                                 var end_time = rownl[k].end_time.toString();
+    //                                 var a = start_time.slice(16, 21);
+    //                                 var b = end_time.slice(16, 21);
+    //                                 if (x >= a && x <= b) {
+    //                                     ArrSchedule = {
+    //                                         working_time: x,
+    //                                         user_id_nv: rownl[k].user_id_nv
+    //                                     };
+    //                                     for (var n=0 ; n < rowns.length ; n++){
+    //                                         console.log()
+    //                                         var status = rowns[k].status;
+    //                                         var rowns_start_time = rowns[n].start_time.toString();
+    //                                         var rowns_end_time = rowns[n].end_time.toString();
+    //                                         var is_rowns_start_time = rowns_start_time.slice(16, 21);
+    //                                         var is_rowns_end_time = rowns_end_time.slice(16, 21);
+    //                                         if (x >= is_rowns_start_time && x <= is_rowns_end_time) {
+    //                                             is_ArrSchedule = {
+    //                                                 working_time: x,
+    //                                                 status: status,
+    //                                                 user_id_nv: rowns[n].user_id_nv
+    //                                             };
+    //                                             console.log("is_ArrSchedule", is_ArrSchedule)
+    //                                             console.log("ArrSchedule", ArrSchedule)
+    //                                             break;
+    //                                         }
+    //                                     }
+    //                                     break;
+    //                                 }
+    //                             }
+    //                         }
+    //                         // nhaan vieen ddi lam
+    //                         // console.log("rown", rown)
+    //                         // // ddown hang khach hang tao
+    //                         // console.log("rowns", rowns)
+    //                         // // ddown hangf nhan vieen lam
+    //                         // console.log("rownl", rownl)
+    //
+    //
+    //                     }
+    //
+    //                 })
+    //             }
+    //             // if (rowns != '') {
+    //             //
+    //             //     for (var i = 0; i < derts.length; i++) {
+    //             //         var x = derts[i];
+    //             //         for (var k = 0; k < rowns.length; k++) {
+    //             //             var status = rowns[k].status;
+    //             //             var start_time = rowns[k].start_time.toString();
+    //             //             var end_time = rowns[k].end_time.toString();
+    //             //             var a = start_time.slice(16, 21);
+    //             //             var b = end_time.slice(16, 21);
+    //             //             if (x >= a && x <= b) {
+    //             //                 ArrSchedule = {
+    //             //                     working_time: x,
+    //             //                     status: status,
+    //             //                     user_id_nv:rowns[k].user_id_nv
+    //             //                 };
+    //             //                 console.log("1212",ArrSchedule)
+    //             //                 break;
+    //             //             }
+    //             //         }
+    //             //     }
+    //             // }
+    //         })
+    //
+    //
+    //     })
+    // },
     // open_settime_order_don: (req, res, next) => {
     //     let start_time = req.body.start_time;
     //     let sql = `SELECT * FROM orders WHERE start_time LIKE '2021-01-06%' and status = 0`;
@@ -251,7 +251,7 @@ module.exports = {
     open_settime_order_don: (req, res, next) => {
         // let start_time = req.body.start_time;
         let start_time  = req.query.start_time;
-        let sql = `SELECT * FROM orders WHERE start_time LIKE '${start_time}%'`;
+        let sql = `SELECT * FROM orders WHERE start_time LIKE '2021-01-06%'`;
         console.log("11", sql)
         db.query(sql, [start_time], (err, rown, fields) => {
             if (err) throw err
@@ -265,7 +265,6 @@ module.exports = {
                 // console.log("111",x);
                 if (rown.length > 0) {
                     for (var k = 0; k < rown.length; k++) {
-                        var status = rown[k].status;
                         var start_time = rown[k].start_time.toString();
                         var end_time = rown[k].end_time.toString();
                         var a = start_time.slice(16, 21);
