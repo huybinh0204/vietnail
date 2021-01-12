@@ -36,8 +36,6 @@ module.exports = {
         // if (JSON.stringify(data) != '{}') {
         let name = req.body.name;
         let image_st = req.body.image_st;
-        console.log("name",name)
-        console.log("image",image_st)
         if (image_st && name != null || undefined) {
             let sql = `INSERT INTO nails_service_type SET ?`;
             console.log("sql",sql)

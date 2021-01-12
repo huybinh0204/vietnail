@@ -6,7 +6,8 @@ var linkfile = require("../config/OpenRoles")
 module.exports = {
     upload_file: (req, res) => {
         var name_file = req.file.path.replace('public', '');
-        var name_str = name_file.substr(7)
+        var name_str = name_file.substr(7);
+        console.log("name_str",name_str)
         if (name_str != "aa.png"){
             var image_file = linkfile.url + "/Image/" + name_str;
             res.json({status: "200", error: false, message: 'Upload file OK!', data: [{image_file: image_file}]});
