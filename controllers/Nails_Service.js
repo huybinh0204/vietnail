@@ -43,6 +43,50 @@ module.exports = {
         })
 
     },
+    get_service_list: (req, res) => {
+        // let service_type_id  = relistq.query.id;
+        let sql = `SELECT * FROM nails_service_type where status_st =0`;
+        db.query(sql, (err, rowns, fields) => {
+            if (err) throw err
+            var sql_a = `SELECT * FROM nails_service JOIN nails_service_type on nails_service_type.id = nails_service.service_type_id WHERE is_status = 0`;
+            db.query(sql_a, (err, rown, fields) => {
+                if (err) throw err
+                // var objn = [];
+                var obj = [];
+                for (var l = 0; l < rowns.length; l++) {
+                    var service_type_id = rowns[l].id
+                    console.log("service_type_id", service_type_id)
+
+                    for (var i = 0; i < rown.length; i++) {
+                        if (service_type_id == rown[i].service_type_id) {
+                            var Arrservice = {
+                                [nails_service_model.id]: rown[i].id,
+                                [nails_service_model.title]: rown[i].title,
+                                [nails_service_model.content]: rown[i].content,
+                                [nails_service_model.moneys_sv]: rown[i].moneys_sv,
+                                [nails_service_model.image]: rown[i].image,
+                                [nails_service_model.service_type_id]: rown[i].service_type_id,
+                                name: rown[i].name,
+                                [nails_service_model.time_service]: rown[i].time_service,
+                            };
+                            obj.push(Arrservice);
+                        }
+                    }
+                    // var Arrservicek = {
+                    //     id_stype: service_type_id,
+                    //     service_nails: obj,
+                    // };
+                    // objn.push(Arrservicek);
+
+                }
+                var _Arrservice = JSON.stringify(obj);
+                var serviceJson = JSON.parse(_Arrservice);
+                var ArrGetservice = [{"status": "200", "data": serviceJson}]
+                res.json(ArrGetservice);
+            })
+        })
+
+    },
     update_service: (req, res) => {
         let data = req.body;
         let serviceId = req.params.serviceId;
