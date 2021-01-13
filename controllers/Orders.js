@@ -2,6 +2,8 @@ const db = require('../service');
 const random_random = require("../config/OpenRoles");
 const schedule_details_mode = require("../models/Order_details_model")
 var moment = require('moment-timezone');
+const axios = require('axios');
+const is_OpenRoles = require('../config/OpenRoles')
 var year = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD");
 module.exports = {
     get_orders: (req, res) => {
@@ -158,6 +160,7 @@ module.exports = {
                         console.log("order_staffs INSERT OK")
                     })
 
+
                     for (var k = 0; k < order_details_id.length; k++) {
                         var nails_service_id = order_details_id[k].nails_service_id;
                         var moneys_od = order_details_id[k].moneys_od;
@@ -172,6 +175,53 @@ module.exports = {
                             if (err) throw err
                             console.log("order_details INSERT OK")
                         })
+                    }
+                })
+
+
+                let sql_notification = `SELECT * FROM notification WHERE notification.user_id = ${user_id_kh}`;
+                db.query(sql_notification, (err, rown_notify, response) => {
+                    if (err) throw err
+                    if (rown_notify != '') {
+                        for (var i = 0; i < rown_notify.length; i++) {
+                            console.log("rown_notify",rown_notify[i].notification_key)
+                            // registration_ids.push(rown[i].on_key);
+                            axios.post(is_OpenRoles.urls_notify, {
+                                    registration_ids: [rown_notify[i].notification_key],
+                                    priority: is_OpenRoles.priority_notify,
+                                    notification: is_OpenRoles.notification_notify,
+                                    data: is_OpenRoles.data_notify_userl
+                                },
+                                {
+                                    headers: {
+                                        Authorization: is_OpenRoles.Authorization_notify,
+                                        'Content-Type': 'application/json'
+                                    }
+                                }
+                            )
+                                .then(function (response) {
+                                    console.log("notify thanh cong")
+                                })
+                                .catch(function (error) {
+                                    console.log("error", error)
+                                });
+                            let sql_select = `SELECT fullname FROM user WHERE id = ${user_id_kh}`;
+                            db.query(sql_select, (err, rowk, response) => {
+                                if (err) throw err
+                                var data_notification = {
+                                    content: 'Bạn đã đặt đơn thành công!',
+                                    user_id: user_id_kh,
+                                    receiver: rowk[0].fullname,
+                                }
+                                let sql = `INSERT INTO message SET ?`;
+                                db.query(sql, [data_notification], (err, response) => {
+                                    if (err) throw err
+                                    console.log("thong bao thanh cong")
+                                });
+                            });
+                        }
+                    } else {
+                        console.log("rown_notify onkey khách hàng chưa có!");
                     }
                 })
             })
