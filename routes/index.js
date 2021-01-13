@@ -144,7 +144,7 @@ module.exports = function (app) {
 
 
     app.route('/api/order/store_status/:OrderStatusID')
-        .get(OrdersCtrl.store_status);
+        .post(OrdersCtrl.store_status);
 
     // thòi gian hiên thị chon
     app.route('/api/get_orders_list/:user_id_kh')

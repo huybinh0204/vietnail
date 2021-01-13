@@ -349,104 +349,41 @@ module.exports = {
     store_status: (req, res) => {
         let OrderStatusID = req.params.OrderStatusID;
         let status = req.body.status;
-        let phone_nv = req.body.phone_nv;
-        let content = req.body.content;
-        console.log("1222", id_User + " :" + status + ":" + content);
+        let user_id = req.body.user_id;
+        let is_conten_cancel = req.body.content_order;
+        let conten_cancel = is_conten_cancel + " : " + user_id;
+        // console.log("1222" + " :" + status + ":" + conten_cancel + " : "+ OrderStatusID);
+        var data = {
+            status: status,
+            conten_cancel : conten_cancel
+        }
         if (status == 1) {
-            var data = {
-                id_User:id_User,
-                status: 1,
-            }
-            let sql = 'UPDATE schedule SET ? WHERE id = ?'
+            let sql = 'UPDATE orders SET ? WHERE id = ?'
             db.query(sql, [data, OrderStatusID], (err, response) => {
                 if (err) throw err
-                res.json({"status": "200", "schedule": 'khách hàng huỷ đơn!'});
-            })
-        } else if (status == 2) {
-            var data = {
-                status: 2,
-                id_User: id_User
-            }
-            let sql = 'UPDATE schedule SET ? WHERE id = ?'
-            db.query(sql, [data, schedule_historicalID], (err, response) => {
-                if (err) throw err
-                let schedule_sql = `SELECT * FROM schedule WHERE id = ${schedule_historicalID}`
-                db.query(schedule_sql, (err, rown, fields) => {
-                    if (err) throw err
-                    var data = {
-                        end_code_schedule: rown[0].code_schedule,
-                        is_status: 1,
-                        id_schedule: rown[0].id,
-                        id_User: id_User,
-                        content: content
-                    }
-                    let sql = `INSERT INTO schedule_historical SET ?`;
-                    db.query(sql, [data], (err, response) => {
-                        if (err) throw err
-                        res.json({"status": "200", "schedule": 'Nhân viên nhận đơn!'});
-                    });
-                })
+                res.json({"status": "200", "message": 'khách hàng huỷ đơn!'});
             })
         } else if (status == 3) {
-            let sql = `SELECT * FROM user WHERE id_roles = 4 and id = ${id_User}`;
-            db.query(sql, (err,rown_s, response) => {
+            let sql = `UPDATE orders SET ? WHERE id = ?`;
+            db.query(sql,[data, OrderStatusID], (err, response) => {
                 if (err) throw err
-                if(rown_s != ''){
-                    var data = {
-                        id_User: rown_s[0].id,
-                        phone_nv:rown_s[0].phone,
-                        fullName:rown_s[0].fullName,
-                        status: 3,
-                    }
-                    let sql = 'UPDATE schedule SET ? WHERE  id = ?'
-                    db.query(sql, [data, schedule_historicalID], (err, response) => {
-                        if (err) throw err
-                        let schedule_sql = `SELECT * FROM schedule WHERE id = ${schedule_historicalID}`
-                        db.query(schedule_sql, (err, rown, fields) => {
-                            if (err) throw err
-                            var data = {
-                                end_code_schedule: rown[0].code_schedule,
-                                is_status: 2,
-                                id_schedule: rown[0].id,
-                                id_User: id_User,
-                                content: content
-                            }
-                            let sql = `INSERT INTO schedule_historical SET ?`;
-                            db.query(sql, [data], (err, response) => {
-                                if (err) throw err
-                                res.json({"status": "200", "message": 'Nhân viên huỷ đơn thành công!'});
-                            });
-                        })
-                    })
-                }else {
-                    res.json({"status": "400", "message": 'Nhân viên khong huỷ đơn duoc!'});
-                }
-
+                res.json({"status": "200", "message": 'Nhân viên huỷ đơn!'});
             })
 
         } else if (status == 4) {
-            var data = {
-                status: 4,
-                content_schedule: content
-            }
-            let sql = 'UPDATE schedule SET ? WHERE id = ?'
-            db.query(sql, [data, schedule_historicalID], (err, response) => {
+            let sql = 'UPDATE orders SET ? WHERE id = ?'
+            db.query(sql, [data, OrderStatusID], (err, response) => {
                 if (err) throw err
                 res.json({"status": "200", "message": 'Đơn làm nails hoàn thành !'});
             })
         } else if (status == 5) {
-            var data = {
-                status: 5,
-                phone_nv: phone_nv
-            }
-            let sql = 'UPDATE schedule SET ? WHERE id = ?'
-            db.query(sql, [data, schedule_historicalID], (err, response) => {
+            let sql = 'UPDATE orders SET ? WHERE id = ?'
+            db.query(sql, [data, OrderStatusID], (err, response) => {
                 if (err) throw err
                 res.json({"status": "200", "message": 'Đơn làm lể tân xác nhận khách hang den !'});
             })
         } else {
             res.json({"status": "403", "message": 'không có quyền với status này !'});
         }
-
     },
 }
