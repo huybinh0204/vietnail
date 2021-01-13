@@ -92,6 +92,7 @@ module.exports = {
         let moneys = req.body.moneys;
         let user_id_kh = req.body.user_id_kh;
         let order_details_id = req.body.order_details_id;
+        console.log("order_details_id",order_details_id)
         if (start_time != '' && end_time && content_order && moneys && user_id_kh != null || undefined) {
             let sql_kh = `SELECT * FROM user WHERE id =${user_id_kh}`;
             // console.log("222",sql_kh)
@@ -156,6 +157,7 @@ module.exports = {
                             moneys_od: moneys_od,
                         }
                         let is_sql_order_details = 'INSERT INTO order_details SET ?';
+                        console.log("is_sql_order_details",is_sql_order_details)
                         db.query(is_sql_order_details, [data_schedule_details], (err, rown, fields) => {
                             if (err) throw err
                             console.log("Schedule_details INSERT OK")
