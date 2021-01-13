@@ -357,6 +357,7 @@ module.exports = {
             status: status,
             content_cancel : content_cancel
         }
+        console.log("data",data)
         if (status == 1 && user_id && is_content_cancel != '' || undefined) {
             let sql = 'UPDATE orders SET ? WHERE id = ?'
             db.query(sql, [data, OrderStatusID], (err, response) => {
