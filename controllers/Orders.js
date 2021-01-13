@@ -305,7 +305,7 @@ module.exports = {
     // },
     open_settime_order_don: (req, res, next) => {
         let start_time = req.body.start_time;
-        let sql = `SELECT * FROM orders WHERE start_time LIKE '2021-01-06%' and status = 0`;
+        let sql = `SELECT * FROM orders WHERE start_time LIKE '${start_time}%' and status = 0`;
         db.query(sql, [start_time], (err, rown, fields) => {
             if (err) throw err
             var derts = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00",

@@ -48,7 +48,7 @@ module.exports = {
         let sql = `SELECT * FROM nails_service_type where status_st =0`;
         db.query(sql, (err, rowns, fields) => {
             if (err) throw err
-            var sql_a = `SELECT * FROM nails_service JOIN nails_service_type on nails_service_type.id = nails_service.service_type_id WHERE is_status = 0`;
+            var sql_a = `SELECT * FROM nails_service_type JOIN nails_service on nails_service_type.id = nails_service.service_type_id WHERE is_status = 0`;
             db.query(sql_a, (err, rown, fields) => {
                 if (err) throw err
                 // var objn = [];
