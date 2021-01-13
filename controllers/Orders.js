@@ -348,11 +348,10 @@ module.exports = {
     // },
     store_status: (req, res) => {
         let OrderStatusID = req.params.OrderStatusID;
-        let status = req.body.status;
+        let status = Number(req.body.status);
         let user_id = req.body.user_id;
         let is_content_cancel = req.body.content_cancel;
         let content_cancel = is_content_cancel + " : " + user_id;
-        console.log("1222" + " :" + status + ":" + content_cancel + " : "+ OrderStatusID);
         var data = {
             status: status,
             content_cancel : content_cancel

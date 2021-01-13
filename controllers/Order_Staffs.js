@@ -170,4 +170,32 @@ module.exports = {
             res.json({"status": "400", message: 'No!'});
         }
     },
+// thong ke
+    statistical_service: (req, res) => {
+        let start_time = req.body.start_time ;
+        let sql = `SELECT COUNT(*) as sum_service, title, start_time,nails_service_id FROM orders JOIN order_details ON orders.id = order_details.orders_id JOIN nails_service ON order_details.nails_service_id = nails_service.id WHERE orders.start_time LIKE '${start_time}%' GROUP BY order_details.nails_service_id`;
+        if (start_time != undefined || "") {
+            db.query(sql, (err, rown, fields) => {
+                if (err) throw err
+                var obj = [];
+                for (var i = 0; i < rown.length; i++) {
+                    var ArrShop = {
+                        sum_service: rown[i].sum_service,
+                        title: rown[i].title,
+                        start_time: rown[i].start_time,
+                        time_service: rown[i].time_service,
+                        nails_service_id: rown[i].nails_service_id
+                    };
+                    obj.push(ArrShop);
+                }
+                var _ArrShop = JSON.stringify(obj);
+                var ShopJson = JSON.parse(_ArrShop);
+                var ArrGetShop = [{"status": "200", message: 'nails_service_type OK!', "data": ShopJson}]
+                res.json(ArrGetShop);
+
+            })
+        } else {
+            res.json({"status": "400", message: 'No statistical_service!'});
+        }
+    },
 }
