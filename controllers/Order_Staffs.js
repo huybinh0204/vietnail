@@ -190,7 +190,31 @@ module.exports = {
                 }
                 var _ArrShop = JSON.stringify(obj);
                 var ShopJson = JSON.parse(_ArrShop);
-                var ArrGetShop = [{"status": "200", message: 'nails_service_type OK!', "data": ShopJson}]
+                var ArrGetShop = [{"status": "200", message: 'thống kê dịch vụ làm trong tháng  OK!', "data": ShopJson}]
+                res.json(ArrGetShop);
+
+            })
+        } else {
+            res.json({"status": "400", message: 'No statistical_service!'});
+        }
+    },
+    statistical_service_moneys: (req, res) => {
+        let start_time = req.body.start_time ;
+        let sql = `SELECT SUM(moneys) as sum_moneys FROM orders WHERE orders.start_time LIKE '2021-01%'`;
+        if (start_time != undefined || "") {
+            db.query(sql, (err, rown, fields) => {
+                if (err) throw err
+                var obj = [];
+                for (var i = 0; i < rown.length; i++) {
+                    var ArrShop = {
+                        sum_moneys: rown[i].sum_moneys,
+                        start_time: start_time,
+                    };
+                    obj.push(ArrShop);
+                }
+                var _ArrShop = JSON.stringify(obj);
+                var ShopJson = JSON.parse(_ArrShop);
+                var ArrGetShop = [{"status": "200", message: 'thống kê tổng tiền theo tháng OK!', "data": ShopJson}]
                 res.json(ArrGetShop);
 
             })

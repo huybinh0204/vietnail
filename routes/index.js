@@ -161,6 +161,9 @@ module.exports = function (app) {
     app.route('/api/order_staffs/statistical_service/')
         .post(Order_StaffsCtrl.statistical_service);
 
+    app.route('/api/order_staffs/statistical_service_moneys/')
+        .post(Order_StaffsCtrl.statistical_service_moneys);
+
     // store_order_staffs_TN thu ngan theem gio
     app.route('/api/get_order_details/')
         .get(Order_StaffsCtrl.get_order_details);
