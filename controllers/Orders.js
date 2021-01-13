@@ -148,6 +148,16 @@ module.exports = {
                 db.query(sql_order_details, (err, rowsl, response) => {
                     if (err) throw err
                     var orders_id = Number(rowsl.map(x => x.id).toString());
+                    let data_order_staffs = {
+                        is_status:1,
+                        orders_id:orders_id
+                    }
+                    let is_sql_order_staffs = 'INSERT INTO order_staffs SET ?';
+                    db.query(is_sql_order_staffs, [data_order_staffs], (err, rown, fields) => {
+                        if (err) throw err
+                        console.log("order_staffs INSERT OK")
+                    })
+
                     for (var k = 0; k < order_details_id.length; k++) {
                         var nails_service_id = order_details_id[k].nails_service_id;
                         var moneys_od = order_details_id[k].moneys_od;
@@ -160,13 +170,13 @@ module.exports = {
                         console.log("is_sql_order_details",is_sql_order_details)
                         db.query(is_sql_order_details, [data_schedule_details], (err, rown, fields) => {
                             if (err) throw err
-                            console.log("Schedule_details INSERT OK")
+                            console.log("order_details INSERT OK")
                         })
                     }
                 })
             })
         } else {
-            res.json({"status": "400", message: 'schedule No INSERT !'});
+            res.json({"status": "400", message: 'order No INSERT !'});
         }
     },
     get_list_time: (req, res) => {
