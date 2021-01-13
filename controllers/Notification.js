@@ -1,7 +1,7 @@
 const db = require('../service');
 module.exports = {
     detail: (req, res) => {
-        let sql = 'SELECT * FROM notification WHERE id_User = ?'
+        let sql = 'SELECT * FROM notification WHERE user_id = ?'
         db.query(sql, [req.params.idUserNotification], (err, rown, fields) => {
             if (err) throw err
             var obj = [];
