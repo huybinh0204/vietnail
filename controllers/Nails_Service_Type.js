@@ -27,7 +27,7 @@ module.exports = {
         let sql = 'UPDATE nails_service_type SET ? WHERE id = ?'
         db.query(sql, [data, ServiceTypeId], (err, response) => {
             if (err) throw err
-            res.json({"status": "200", shop: 'Update service_type success!'})
+            res.json({"status": "200", message: 'Update service_type success!'})
         })
     },
     store_service_type: (req, res) => {
