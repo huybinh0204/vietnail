@@ -200,7 +200,7 @@ module.exports = {
     },
     statistical_service_moneys: (req, res) => {
         let start_time = req.body.start_time ;
-        let sql = `SELECT SUM(moneys) as sum_moneys FROM orders WHERE orders.start_time LIKE '${start_time}% and status = 4`;
+        let sql = `SELECT SUM(moneys) as sum_moneys FROM orders WHERE orders.start_time LIKE '${start_time}%' and status = 4`;
         if (start_time != undefined || "") {
             db.query(sql, (err, rown, fields) => {
                 if (err) throw err
