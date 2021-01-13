@@ -366,15 +366,15 @@ module.exports = {
             res.json(ArrGetUser);
         })
     },
-    // update: (req, res) => {
-    //     let data = req.body;
-    //     let userId = req.params.userId;
-    //     let sql = `UPDATE user SET ? WHERE id = ?`;
-    //     db.query(sql, [data, userId], (err, response) => {
-    //         if (err) throw err
-    //         res.json({"status": "200", "message": 'Update success!'})
-    //     })
-    // },
+    update: (req, res) => {
+        let data = req.body;
+        let userId = req.params.userId;
+        let sql = `UPDATE user SET ? WHERE id = ?`;
+        db.query(sql, [data, userId], (err, response) => {
+            if (err) throw err
+            res.json({"status": "200", "message": 'Update success!'})
+        })
+    },
     //check sddt
 
 

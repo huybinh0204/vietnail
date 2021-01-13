@@ -82,6 +82,9 @@ module.exports = function (app) {
     // thêm tài khoản
     app.route('/api/user/')
         .post(UserCtrl.store);
+    //suwa thong tin user
+    app.route('/api/user/edit/:userId')
+        .put(UserCtrl.update);
     // khi dắng nhập lấy thôgn tin cá nhân
     app.route('/api/user/:userId')
         .get(token_config.checkToken, UserCtrl.detail);
@@ -139,9 +142,9 @@ module.exports = function (app) {
     app.route('/api/order/store_orders/')
         .post(OrdersCtrl.store_orders);
 
-    // thòi gian hiên thị chon
-    app.route('/api/order/open_settime_order/')
-        .get(OrdersCtrl.open_settime_order);
+
+    app.route('/api/order/store_status/:OrderStatusID')
+        .get(OrdersCtrl.store_status);
 
     // thòi gian hiên thị chon
     app.route('/api/get_orders_list/:user_id_kh')
