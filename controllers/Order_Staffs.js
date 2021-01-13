@@ -76,7 +76,7 @@ module.exports = {
         }
     },
     get_date_time: (req, res) => {
-        let sql = `SELECT * FROM orders JOIN order_staffs ON orders.id = order_staffs.orders_id WHERE start_time LIKE '${year}%'`;
+        let sql = `SELECT * FROM order_staffs JOIN orders ON orders.id = order_staffs.orders_id WHERE start_time LIKE '${year}%'`;
         // console.log("111", sql)
         db.query(sql, (err, rown, fields) => {
             if (err) throw err
