@@ -15,12 +15,12 @@ module.exports = {
                 var ArrSchedule = {
                     id: rown[i].id,
                     code_order: rown[i].code_order,
-                    start_time: rown[i].start_time,
+                    time_service: rown[i].time_service,
+                    image: rown[i].image,
                     title: rown[i].title,
                     moneys: rown[i].moneys,
                     status: rown[i].status,
                     content_order: rown[i].content_order,
-                    name_kh: rown[i].name_kh,
                 };
                 obj.push(ArrSchedule);
             }
