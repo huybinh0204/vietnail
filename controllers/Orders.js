@@ -189,7 +189,7 @@ module.exports = {
         res.json(ArrGetschedule_historical);
     },
     //sét thời gian làm nails
-    open_settime_order: (req, res, next) => {
+    // open_settime_order: (req, res, next) => {
         // var derts = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00",
         //     "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30",
         //     "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"];
@@ -252,7 +252,7 @@ module.exports = {
         //
         //
         // })
-    },
+    // },
     open_settime_order_don: (req, res, next) => {
         let start_time = req.body.start_time;
         let sql = `SELECT * FROM orders WHERE start_time LIKE '2021-01-06%' and status = 0`;
@@ -346,4 +346,107 @@ module.exports = {
     //     })
     //
     // },
+    store_status: (req, res) => {
+        let OrderStatusID = req.params.OrderStatusID;
+        let status = req.body.status;
+        let phone_nv = req.body.phone_nv;
+        let content = req.body.content;
+        console.log("1222", id_User + " :" + status + ":" + content);
+        if (status == 1) {
+            var data = {
+                id_User:id_User,
+                status: 1,
+            }
+            let sql = 'UPDATE schedule SET ? WHERE id = ?'
+            db.query(sql, [data, OrderStatusID], (err, response) => {
+                if (err) throw err
+                res.json({"status": "200", "schedule": 'khách hàng huỷ đơn!'});
+            })
+        } else if (status == 2) {
+            var data = {
+                status: 2,
+                id_User: id_User
+            }
+            let sql = 'UPDATE schedule SET ? WHERE id = ?'
+            db.query(sql, [data, schedule_historicalID], (err, response) => {
+                if (err) throw err
+                let schedule_sql = `SELECT * FROM schedule WHERE id = ${schedule_historicalID}`
+                db.query(schedule_sql, (err, rown, fields) => {
+                    if (err) throw err
+                    var data = {
+                        end_code_schedule: rown[0].code_schedule,
+                        is_status: 1,
+                        id_schedule: rown[0].id,
+                        id_User: id_User,
+                        content: content
+                    }
+                    let sql = `INSERT INTO schedule_historical SET ?`;
+                    db.query(sql, [data], (err, response) => {
+                        if (err) throw err
+                        res.json({"status": "200", "schedule": 'Nhân viên nhận đơn!'});
+                    });
+                })
+            })
+        } else if (status == 3) {
+            let sql = `SELECT * FROM user WHERE id_roles = 4 and id = ${id_User}`;
+            db.query(sql, (err,rown_s, response) => {
+                if (err) throw err
+                if(rown_s != ''){
+                    var data = {
+                        id_User: rown_s[0].id,
+                        phone_nv:rown_s[0].phone,
+                        fullName:rown_s[0].fullName,
+                        status: 3,
+                    }
+                    let sql = 'UPDATE schedule SET ? WHERE  id = ?'
+                    db.query(sql, [data, schedule_historicalID], (err, response) => {
+                        if (err) throw err
+                        let schedule_sql = `SELECT * FROM schedule WHERE id = ${schedule_historicalID}`
+                        db.query(schedule_sql, (err, rown, fields) => {
+                            if (err) throw err
+                            var data = {
+                                end_code_schedule: rown[0].code_schedule,
+                                is_status: 2,
+                                id_schedule: rown[0].id,
+                                id_User: id_User,
+                                content: content
+                            }
+                            let sql = `INSERT INTO schedule_historical SET ?`;
+                            db.query(sql, [data], (err, response) => {
+                                if (err) throw err
+                                res.json({"status": "200", "message": 'Nhân viên huỷ đơn thành công!'});
+                            });
+                        })
+                    })
+                }else {
+                    res.json({"status": "400", "message": 'Nhân viên khong huỷ đơn duoc!'});
+                }
+
+            })
+
+        } else if (status == 4) {
+            var data = {
+                status: 4,
+                content_schedule: content
+            }
+            let sql = 'UPDATE schedule SET ? WHERE id = ?'
+            db.query(sql, [data, schedule_historicalID], (err, response) => {
+                if (err) throw err
+                res.json({"status": "200", "message": 'Đơn làm nails hoàn thành !'});
+            })
+        } else if (status == 5) {
+            var data = {
+                status: 5,
+                phone_nv: phone_nv
+            }
+            let sql = 'UPDATE schedule SET ? WHERE id = ?'
+            db.query(sql, [data, schedule_historicalID], (err, response) => {
+                if (err) throw err
+                res.json({"status": "200", "message": 'Đơn làm lể tân xác nhận khách hang den !'});
+            })
+        } else {
+            res.json({"status": "403", "message": 'không có quyền với status này !'});
+        }
+
+    },
 }
