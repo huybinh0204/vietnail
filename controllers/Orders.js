@@ -350,7 +350,7 @@ module.exports = {
         let OrderStatusID = req.params.OrderStatusID;
         let status = req.body.status;
         let user_id = req.body.user_id;
-        let is_conten_cancel = req.body.content_order;
+        let is_conten_cancel = req.body.conten_cancel;
         let conten_cancel = is_conten_cancel + " : " + user_id;
         // console.log("1222" + " :" + status + ":" + conten_cancel + " : "+ OrderStatusID);
         var data = {
