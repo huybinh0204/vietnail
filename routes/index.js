@@ -196,6 +196,9 @@ module.exports = function (app) {
     app.route('/api/notify_userkey/')
         .post(NotificationCtrl.store_notify);
 
+    app.route('/api/get_notify/:user_id')
+        .get(NotificationCtrl.get_notify);
+
     // cron.schedule('*/15 * * * *', () => {
     //
     //     app.get(Notify_UserCtrl.get_time_schedule())
