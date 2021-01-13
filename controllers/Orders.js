@@ -350,33 +350,33 @@ module.exports = {
         let OrderStatusID = req.params.OrderStatusID;
         let status = req.body.status;
         let user_id = req.body.user_id;
-        let is_conten_cancel = req.body.conten_cancel;
-        let conten_cancel = is_conten_cancel + " : " + user_id;
+        let is_content_cancel = req.body.content_cancel;
+        let content_cancel = is_content_cancel + " : " + user_id;
         // console.log("1222" + " :" + status + ":" + conten_cancel + " : "+ OrderStatusID);
         var data = {
             status: status,
-            conten_cancel : conten_cancel
+            content_cancel : content_cancel
         }
-        if (status == 1) {
+        if (status == 1 && user_id && is_content_cancel != '' || undefined) {
             let sql = 'UPDATE orders SET ? WHERE id = ?'
             db.query(sql, [data, OrderStatusID], (err, response) => {
                 if (err) throw err
                 res.json({"status": "200", "message": 'khách hàng huỷ đơn!'});
             })
-        } else if (status == 3) {
+        } else if (status == 3 && user_id && is_content_cancel != '' || undefined) {
             let sql = `UPDATE orders SET ? WHERE id = ?`;
             db.query(sql,[data, OrderStatusID], (err, response) => {
                 if (err) throw err
                 res.json({"status": "200", "message": 'Nhân viên huỷ đơn!'});
             })
 
-        } else if (status == 4) {
+        } else if (status == 4 && user_id && is_content_cancel != '' || undefined) {
             let sql = 'UPDATE orders SET ? WHERE id = ?'
             db.query(sql, [data, OrderStatusID], (err, response) => {
                 if (err) throw err
                 res.json({"status": "200", "message": 'Đơn làm nails hoàn thành !'});
             })
-        } else if (status == 5) {
+        } else if (status == 5 && user_id && is_content_cancel != '' || undefined) {
             let sql = 'UPDATE orders SET ? WHERE id = ?'
             db.query(sql, [data, OrderStatusID], (err, response) => {
                 if (err) throw err

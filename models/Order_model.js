@@ -4,6 +4,7 @@ module.exports = {
     start_time: 'start_time',
     end_time: 'end_time',
     content_order: 'content_order',
+    content_cancel:'content_cancel',
     moneys: 'moneys',
     status: 'status',
     phone_kh: 'phone_kh',
