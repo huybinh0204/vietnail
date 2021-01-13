@@ -9,7 +9,7 @@ module.exports = {
                 var Arrnotification = {
                     id: rown[i].id,
                     content: rown[i].content,
-                    id_User: rown[i].id_User,
+                    user_id: rown[i].user_id,
                     receiver_name: rown[i].receiver,
                     date_notification: rown[i].date_notification,
                 };
