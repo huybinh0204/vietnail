@@ -5,7 +5,7 @@ module.exports = {
         let user_id = req.body.user_id;
         if (user_id != undefined && notification_key != undefined) {
             if (user_id != "" && notification_key != "") {
-                let sql = `INSERT INTO notify_key SET ?`;
+                let sql = `INSERT INTO notification SET ?`;
                 console.log("123", sql)
                 db.query(sql, [{user_id, notification_key}], (err, rewn, response) => {
                     if (err) throw err
