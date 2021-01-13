@@ -40,6 +40,7 @@ module.exports = function (app) {
     let Service_TypeCtrl = require('../controllers/Nails_Service_Type');
     let Nails_ServiceCtrl = require('../controllers/Nails_Service');
     let Day_OffCtrl = require('../controllers/Day_Off');
+    let NotificationCtrl = require('../controllers/Notification');
     //order
 
     // let ScheduleCtrl = require('../controllers/Schedule');
@@ -47,7 +48,6 @@ module.exports = function (app) {
     // let RolesCtrl = require('../controllers/Roles');
     // let Schedule_historicalCtrl = require('../controllers/Schedule_historical');
 
-    // let NotificationCtrl = require('../controllers/Notification');
     app.route('/')
         .get(UserCtrl._get)
 // Login đăng nhập
@@ -194,7 +194,7 @@ module.exports = function (app) {
 // notify
     // thêm key notify
     app.route('/api/notify_userkey/')
-        .post(Notify_UserCtrl.store);
+        .post(NotificationCtrl.store_notify);
 
     // cron.schedule('*/15 * * * *', () => {
     //
