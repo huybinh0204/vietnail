@@ -75,6 +75,34 @@ module.exports = {
             res.json({"status": "400", message: 'No!'});
         }
     },
+    get_date_time: (req, res) => {
+        let sql = `SELECT * FROM orders JOIN order_staffs ON orders.id = order_staffs.orders_id WHERE start_time LIKE '${year}%'`;
+        // console.log("111", sql)
+        db.query(sql, (err, rown, fields) => {
+            if (err) throw err
+            var obj = [];
+            for (var i = 0; i < rown.length; i++) {
+                var ArrSchedule = {
+                    id: rown[i].id,
+                    code_order: rown[i].code_order,
+                    start_time: rown[i].start_time,
+                    end_time: rown[i].end_time,
+                    status: rown[i].status,
+                    moneys: rown[i].moneys,
+                    phone_kh: rown[i].phone_kh,
+                    name_kh: rown[i].name_kh,
+                    user_id_kh: rown[i].user_id_kh,
+                    fullname_nv: rown[i].fullname_nv,
+                    created_order: rown[i].created_order,
+                };
+                obj.push(ArrSchedule);
+            }
+            var _ArrSchedule = JSON.stringify(obj);
+            var ScheduleJson = JSON.parse(_ArrSchedule);
+            var ArrGetSchedule = [{"status": "200", "data": ScheduleJson}]
+            res.json(ArrGetSchedule);
+        })
+    },
     get_order_details: (req, res) => {
         let orders_id = req.query.orders_id;
         let sql = `SELECT * FROM order_details JOIN nails_service ON nails_service.id = order_details.nails_service_id WHERE orders_id = ${orders_id}`;
