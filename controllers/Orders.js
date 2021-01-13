@@ -352,7 +352,7 @@ module.exports = {
         let user_id = req.body.user_id;
         let is_content_cancel = req.body.content_cancel;
         let content_cancel = is_content_cancel + " : " + user_id;
-        // console.log("1222" + " :" + status + ":" + conten_cancel + " : "+ OrderStatusID);
+        console.log("1222" + " :" + status + ":" + conten_cancel + " : "+ OrderStatusID);
         var data = {
             status: status,
             content_cancel : content_cancel
@@ -369,7 +369,6 @@ module.exports = {
                 if (err) throw err
                 res.json({"status": "200", "message": 'Nhân viên huỷ đơn!'});
             })
-
         } else if (status == 4 && user_id && is_content_cancel != '' || undefined) {
             let sql = 'UPDATE orders SET ? WHERE id = ?'
             db.query(sql, [data, OrderStatusID], (err, response) => {
