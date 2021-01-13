@@ -36,6 +36,7 @@ module.exports = {
             // res.json(rown);
         })
     },
+    //thu ngân thêm dịch vụ
     store_order_staffs_TN: (req, res) => {
         let orders_id = req.body.orders_id;
         let user_id_tn = req.body.user_id_tn;
@@ -54,6 +55,7 @@ module.exports = {
                         var nails_service_id = order_details_id[k].nails_service_id;
                         var moneys_od = order_details_id[k].moneys_od;
                         var data_schedule_details_n = {
+                            content_od:"thu ngân thêm dịch vụ",
                             nails_service_id: nails_service_id,
                             orders_id: orders_id,
                             moneys_od: moneys_od,
@@ -67,7 +69,18 @@ module.exports = {
                             console.log("OK")
                         })
                     }
-                    res.json({status: "200", message: 'order_details INSERT Ok!'});
+                    let sql_moneys_od = `SELECT SUM(moneys_od) as moneys_od FROM order_details WHERE status_od =0 and orders_id = ${orders_id}`;
+                    db.query(sql_moneys_od, (err, rown_moneys_od, fields) => {
+                        if (err) throw err
+                        let moneys = rown_moneys_od[0].moneys_od;
+                        let sql_moneys = 'UPDATE orders SET ? WHERE id = ?'
+                        db.query(sql_moneys, [{moneys},orders_id], (err, response) => {
+                            if (err) throw err
+                            console.log("ok orders moneys !")
+
+                        })
+                    })
+                    res.json({status: "200", message: 'thu ngân thêm dịch vụ thành công INSERT Ok!'});
                 })
 
             })
@@ -148,6 +161,7 @@ module.exports = {
                     let phone_tn = rown[0].phone
 
                     var data_schedule_details_n = {
+                        content_od:"thu ngân xoa",
                         status_od: 1,
                         user_id_tn: user_id_tn,
                         name_tn: name_tn,
@@ -161,7 +175,18 @@ module.exports = {
 
                         })
                     }
-                    res.json({"status": "200", shop: 'Xoa dich vu thanh cong!'})
+                    let is_sql_moneys_od = `SELECT SUM(moneys_od) as moneys_od FROM order_details WHERE status_od =0 and orders_id = ${orders_id}`;
+                    db.query(is_sql_moneys_od, (err, rown_moneys_od, fields) => {
+                        if (err) throw err
+                        let moneys = rown_moneys_od[0].moneys_od;
+                        let sql_moneys = 'UPDATE orders SET ? WHERE id = ?'
+                        db.query(sql_moneys, [{moneys},orders_id], (err, response) => {
+                            if (err) throw err
+                            console.log("ok orders moneys !")
+
+                        })
+                    })
+                    res.json({"status": "200", message: 'Xoa dich vu thanh cong!'})
 
                 })
 

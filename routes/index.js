@@ -226,6 +226,7 @@ module.exports = function (app) {
 // api service dich vu
     app.route('/api/nails_service/')
         .get( Nails_ServiceCtrl.get_service);
+
     app.route('/api/get_service_list/')
         .get( Nails_ServiceCtrl.get_service_list);
 
