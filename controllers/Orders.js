@@ -358,26 +358,23 @@ module.exports = {
             content_cancel : content_cancel
         }
         console.log("data",data)
+        let sql = 'UPDATE orders SET ? WHERE id = ?'
         if (status == 1 && user_id && is_content_cancel != '' || undefined) {
-            let sql = 'UPDATE orders SET ? WHERE id = ?'
             db.query(sql, [data, OrderStatusID], (err, response) => {
                 if (err) throw err
                 res.json({"status": "200", "message": 'khách hàng huỷ đơn!'});
             })
         } else if (status == 3 && user_id && is_content_cancel != '' || undefined) {
-            let sql = `UPDATE orders SET ? WHERE id = ?`;
             db.query(sql,[data, OrderStatusID], (err, response) => {
                 if (err) throw err
                 res.json({"status": "200", "message": 'Nhân viên huỷ đơn!'});
             })
         } else if (status == 4 && user_id && is_content_cancel != '' || undefined) {
-            let sql = 'UPDATE orders SET ? WHERE id = ?'
             db.query(sql, [data, OrderStatusID], (err, response) => {
                 if (err) throw err
                 res.json({"status": "200", "message": 'Đơn làm nails hoàn thành !'});
             })
         } else if (status == 5 && user_id && is_content_cancel != '' || undefined) {
-            let sql = 'UPDATE orders SET ? WHERE id = ?'
             db.query(sql, [data, OrderStatusID], (err, response) => {
                 if (err) throw err
                 res.json({"status": "200", "message": 'Đơn làm lể tân xác nhận khách hang den !'});
