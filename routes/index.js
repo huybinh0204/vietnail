@@ -180,6 +180,15 @@ module.exports = function (app) {
     app.route('/api/open_settime_order_don/')
         .get(OrdersCtrl.open_settime_order_don);
 
+
+    // thự động set nhân viênlàm nail
+    cron.schedule('*/1 * * * *', () => {
+        app.get(OrdersCtrl.open_settime_order());
+    }, {
+        scheduled: true,
+        timezone: "Asia/Bangkok"
+    });
+
     // thự động set nhân viênlàm nail
     app.route('/api/get_list_time/')
         .get(OrdersCtrl.get_list_time);
