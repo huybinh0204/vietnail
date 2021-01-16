@@ -150,6 +150,7 @@ module.exports = {
                             orders_id: orders_id,
                             moneys_od: moneys_od,
                         }
+                        console.log("111",data_schedule_details)
                         let is_sql_order_details = 'INSERT INTO order_details SET ?';
                         console.log("is_sql_order_details", is_sql_order_details)
                         db.query(is_sql_order_details, [data_schedule_details], (err, rown, fields) => {
@@ -158,7 +159,6 @@ module.exports = {
                         })
                     }
                 })
-
 
                 let sql_notification = `SELECT * FROM notification WHERE notification.user_id = ${user_id_kh}`;
                 db.query(sql_notification, (err, rown_notify, response) => {
