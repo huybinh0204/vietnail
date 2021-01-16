@@ -182,12 +182,15 @@ module.exports = function (app) {
 
 
     // thự động set nhân viênlàm nail
-    cron.schedule('*/1 * * * *', () => {
-        app.get(OrdersCtrl.open_settime_order());
-    }, {
-        scheduled: true,
-        timezone: "Asia/Bangkok"
-    });
+    app.route('/api/open_settime_order/')
+        .get(OrdersCtrl.open_settime_order);
+
+    // cron.schedule('*/1 * * * *', () => {
+    //     app.get(OrdersCtrl.open_settime_order());
+    // }, {
+    //     scheduled: true,
+    //     timezone: "Asia/Bangkok"
+    // });
 
     // thự động set nhân viênlàm nail
     app.route('/api/get_list_time/')

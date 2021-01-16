@@ -680,10 +680,10 @@ module.exports = {
             status: status,
             content_cancel: content_cancel
         }
-        let sql_check = `SELECT * FROM orders WHERE status != 1 and status != 4 and id = ${OrderStatusID}`;
-        db.query(sql_check, (err, respon, response) => {
-            if (err) throw err
-            if (respon != '') {
+        // let sql_check = `SELECT * FROM orders WHERE status != 1 and status != 4 and id = ${OrderStatusID}`;
+        // db.query(sql_check, (err, respon, response) => {
+        //     if (err) throw err
+        //     if (respon != '') {
                 let sql = 'UPDATE orders SET ? WHERE id = ?';
                 let sqlm = 'UPDATE order_staffs SET ? WHERE orders_id = ?'
                 if (status == 1 && user_id && is_content_cancel != '' || undefined) {
@@ -691,19 +691,19 @@ module.exports = {
                         if (err) throw err
                         res.json({"status": "200", "message": 'khách hàng huỷ đơn!'});
                     })
-                    db.query(sqlm, [{is_status: 3}, OrderStatusID], (err, response) => {
-                        if (err) throw err
-                        console.log("khách hàng huỷ đơn!");
-                    })
+                    // db.query(sqlm, [{is_status: 3}, OrderStatusID], (err, response) => {
+                    //     if (err) throw err
+                    //     console.log("khách hàng huỷ đơn!");
+                    // })
                 } else if (status == 3 && user_id && is_content_cancel != '' || undefined) {
                     db.query(sql, [data, OrderStatusID], (err, response) => {
                         if (err) throw err
                         res.json({"status": "200", "message": 'Nhân viên huỷ đơn thành công!'});
                     });
-                    db.query(sqlm, [{is_status: 0}, OrderStatusID], (err, response) => {
-                        if (err) throw err
-                        console.log("Nhân viên huỷ đơn!");
-                    });
+                    // db.query(sqlm, [{is_status: 0}, OrderStatusID], (err, response) => {
+                    //     if (err) throw err
+                    //     console.log("Nhân viên huỷ đơn!");
+                    // });
                 } else if (status == 4 && user_id && is_content_cancel != '' || undefined) {
                     db.query(sql, [data, OrderStatusID], (err, response) => {
                         if (err) throw err
@@ -719,16 +719,16 @@ module.exports = {
                         if (err) throw err
                         res.json({"status": "200", "message": 'Thu ngân huỷ đơn thành công !'});
                     })
-                    db.query(sqlm, [{is_status: 3}, OrderStatusID], (err, response) => {
-                        if (err) throw err
-                        console.log("Thu ngân huỷ đơn!");
-                    });
+                    // db.query(sqlm, [{is_status: 3}, OrderStatusID], (err, response) => {
+                    //     if (err) throw err
+                    //     console.log("Thu ngân huỷ đơn!");
+                    // });
                 } else {
                     res.json({"status": "403", "message": 'không có quyền với status này !'});
                 }
-            } else {
-                res.json({"status": "403", "message": 'không có quyền với banr ghi này !'});
-            }
-        })
+        //     } else {
+        //         res.json({"status": "403", "message": 'không có quyền với banr ghi này !'});
+        //     }
+        // })
     },
 }
