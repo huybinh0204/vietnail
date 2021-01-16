@@ -187,12 +187,12 @@ module.exports = {
                             moneys_od: moneys_od,
                         }
                         console.log("111", data_schedule_details)
-                        // let is_sql_order_details = 'INSERT INTO order_details SET ?';
-                        // console.log("is_sql_order_details", is_sql_order_details)
-                        // db.query(is_sql_order_details, [data_schedule_details], (err, rown, fields) => {
-                        //     if (err) throw err
-                        //     console.log("order_details INSERT OK")
-                        // })
+                        let is_sql_order_details = 'INSERT INTO order_details SET ?';
+                        console.log("is_sql_order_details", is_sql_order_details)
+                        db.query(is_sql_order_details, [data_schedule_details], (err, rown, fields) => {
+                            if (err) throw err
+                            console.log("order_details INSERT OK")
+                        })
                     }
                 })
 
