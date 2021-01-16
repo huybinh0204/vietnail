@@ -597,6 +597,7 @@ module.exports = {
                         if (err) throw err
                         res.json({"status": "200", "message": 'khách hàng huỷ đơn!'});
                     })
+
                     db.query(sqlm, [{is_status: 3}, OrderStatusID], (err, response) => {
                         if (err) throw err
                         console.log("khách hàng huỷ đơn!");
@@ -604,12 +605,13 @@ module.exports = {
                 } else if (status == 3 && user_id && is_content_cancel != '' || undefined) {
                     db.query(sql, [data, OrderStatusID], (err, response) => {
                         if (err) throw err
-                        res.json({"status": "200", "message": 'Nhân viên huỷ đơn thành công!'});
+                        res.json({"status": "200", "message": 'Thu ngân huỷ đơn thành công!'});
                     });
-                    // db.query(sqlm, [{is_status: 0}, OrderStatusID], (err, response) => {
-                    //     if (err) throw err
-                    //     console.log("Nhân viên huỷ đơn!");
-                    // });
+
+                    db.query(sqlm, [{is_status: 2}, OrderStatusID], (err, response) => {
+                        if (err) throw err
+                        console.log("Thu ngân huỷ đơn!");
+                    });
                 } else if (status == 4 && user_id && is_content_cancel != '' || undefined) {
                     db.query(sql, [data, OrderStatusID], (err, response) => {
                         if (err) throw err
@@ -620,15 +622,6 @@ module.exports = {
                         if (err) throw err
                         res.json({"status": "200", "message": 'Đơn làm lể tân xác nhận khách hang den !'});
                     })
-                } else if (status == 6 && user_id && is_content_cancel != '' || undefined) {
-                    db.query(sql, [data, OrderStatusID], (err, response) => {
-                        if (err) throw err
-                        res.json({"status": "200", "message": 'Thu ngân huỷ đơn thành công !'});
-                    })
-                    // db.query(sqlm, [{is_status: 3}, OrderStatusID], (err, response) => {
-                    //     if (err) throw err
-                    //     console.log("Thu ngân huỷ đơn!");
-                    // });
                 } else {
                     res.json({"status": "403", "message": 'không có quyền với status này !'});
                 }
