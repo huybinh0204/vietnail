@@ -36,6 +36,57 @@ module.exports = {
             // res.json(rown);
         })
     },
+    //  thu ngân check nhaan vien di làm tring ngay hm đó
+    order_staffs_store_us: (req, res) => {
+        let user_id_nv = req.body.user_id_nv;
+        let content = req.body.content;
+        let orders_id = req.body.orders_id;
+        if (user_id_nv && orders_id && content != '' || undefined) {
+            let sql_order_staffs = `SELECT * FROM user WHERE id =${user_id_nv}`;
+            console.log("sql_order_staffs",sql_order_staffs)
+            db.query(sql_order_staffs, (err, rows, response) => {
+                if (err) throw err
+                let fullname_nv = rows[0].fullname;
+                let data = {
+                    user_id_nv:user_id_nv,
+                    content:content,
+                    orders_id:orders_id,
+                    fullname_nv:fullname_nv,
+                    is_status:1,
+                }
+                let sql_order_staffs = `INSERT INTO order_staffs SET ?`;
+                db.query(sql_order_staffs, [data,orders_id], (err, response) => {
+                    if (err) throw err
+                    res.json({"status": "200","message": 'Thêm nhân viên vào hoá đơn thành công !',data:data})
+                })
+            })
+        }else {
+            res.json({"status": "400","message": 'Thêm nhân viên không thành công!'})
+        }
+
+    },
+    //  thu ngân thêm nhân viên vào đơn hàng
+    uesr_order_staffs: (req, res) => {
+        let sql = `SELECT * FROM user WHERE id NOT IN (SELECT user_id_nv FROM day_off WHERE day_off.end_date >= "${year}%" and day_off.begin_date <= "${year}%") and roles_id = 2 and is_active =0`;
+        db.query(sql, (err, rown, fields) => {
+            if (err) throw err
+            var obj = [];
+            for (var i = 0; i < rown.length; i++) {
+                var ArrUser = {
+                    id: rown[i].id,
+                    phone: rown[i].phone,
+                    fullname: rown[i].fullname,
+                    avatar: rown[i].avatar,
+                    created_us: rown[i].created_us
+                };
+                obj.push(ArrUser);
+            }
+            var _ArrUser = JSON.stringify(obj);
+            var UserJson = JSON.parse(_ArrUser);
+            var ArrGetUser = [{"status": "200","message": 'Thành công!', "data": UserJson}]
+            res.json(ArrGetUser);
+        })
+    },
     //thu ngân thêm dịch vụ
     store_order_staffs_TN: (req, res) => {
         let orders_id = req.body.orders_id;

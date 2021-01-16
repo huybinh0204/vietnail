@@ -260,8 +260,8 @@ module.exports = {
         var derts = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00",
             "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30",
             "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"];
-        // let start_time = "2021-01-13%";
-        let start_time = year;
+        let start_time = "2021-01-13%";
+        // let start_time = year;
         // nhaan vieen ddi lamf
         let sql = `SELECT * FROM user WHERE id NOT IN (SELECT user_id_nv FROM day_off WHERE day_off.end_date >= '${start_time}%' and day_off.begin_date <= '${start_time}%') and roles_id = 2 and is_active =0`;
         db.query(sql, (err, rown, fields) => {

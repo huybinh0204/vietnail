@@ -169,6 +169,15 @@ module.exports = function (app) {
         .get(Order_StaffsCtrl.get_order_details);
 
 
+    // check nhân viên đi làmm
+    app.route('/api/uesr_order_staffs/')
+        .get(Order_StaffsCtrl.uesr_order_staffs);
+
+    // Thêmm nhân viên làmm háo đơn
+    app.route('/api/order_staffs_store_us/')
+        .post(Order_StaffsCtrl.order_staffs_store_us);
+
+
     // store_order_staffs_TN thu ngan theem gio
     app.route('/api/order_staffs/delete_order_details/')
         .post(Order_StaffsCtrl.delete_order_details);
