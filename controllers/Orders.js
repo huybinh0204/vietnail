@@ -9,7 +9,7 @@ module.exports = {
     get_orders: (req, res) => {
         let orders_id = req.params.orders_id;
         let sql = `SELECT nails_service.id,code_order,time_service,image,nails_service.title,nails_service.moneys_sv as moneys,status,content_order FROM order_details JOIN nails_service ON nails_service.id = order_details.nails_service_id JOIN orders ON orders.id = order_details.orders_id where orders.id = ${orders_id}`;
-        console.log("111", sql)
+        // console.log("111", sql)
         db.query(sql, [orders_id], (err, rown, fields) => {
             if (err) throw err
             var obj = [];
@@ -63,8 +63,44 @@ module.exports = {
     get_orders_status: (req, res) => {
         var Userid = req.params.Userid
         let sql = `SELECT * FROM user WHERE id = ${Userid}`;
-        db.query(sql, (err, rown, fields) => {
+        db.query(sql,[Userid], (err, rown, fields) => {
             if (err) throw err
+            if (rown != '') {
+                let sqlk ='';
+                // console.log("rown[0].roles_id",rown[0].roles_id)
+                if(rown[0].roles_id == 1){
+                    sqlk = `SELECT * FROM orders WHERE status = 4`;
+                }else if(rown[0].roles_id == 2) {
+                    sqlk = `SELECT * FROM orders WHERE status = 4`;
+                }else if(rown[0].roles_id == 3){
+                    sqlk = `SELECT * FROM orders JOIN order_staffs on order_staffs.orders_id = orders.id WHERE order_staffs.user_id_nv  = ${Userid}`;
+                }else {
+                    sqlk = `SELECT * FROM orders WHERE status = 4`;
+                }
+                db.query(sqlk, (err, rowns, fields) => {
+                    if (err) throw err
+                    var obj = [];
+                    for (var i = 0; i < rowns.length; i++) {
+                        var ArrSchedule = {
+                            id: rowns[i].id,
+                            code_order: rowns[i].code_order,
+                            start_time: rowns[i].start_time,
+                            title: rowns[i].title,
+                            moneys: rowns[i].moneys,
+                            phone_nv: rowns[i].phone_nv,
+                            status: rowns[i].status,
+                            fullName_nv: rowns[i].fullName_nv,
+                            content_order: rowns[i].content_order,
+                            name_kh: rowns[i].name_kh,
+                        };
+                        obj.push(ArrSchedule);
+                    }
+                    var _ArrSchedule = JSON.stringify(obj);
+                    var ScheduleJson = JSON.parse(_ArrSchedule);
+                    var ArrGetSchedule = [{"status": "200", "data": ScheduleJson}]
+                    res.json(ArrGetSchedule);
+                })
+            }
         })
     },
     store_orders: (req, res) => {
@@ -150,13 +186,13 @@ module.exports = {
                             orders_id: orders_id,
                             moneys_od: moneys_od,
                         }
-                        console.log("111",data_schedule_details)
-                        let is_sql_order_details = 'INSERT INTO order_details SET ?';
-                        console.log("is_sql_order_details", is_sql_order_details)
-                        db.query(is_sql_order_details, [data_schedule_details], (err, rown, fields) => {
-                            if (err) throw err
-                            console.log("order_details INSERT OK")
-                        })
+                        console.log("111", data_schedule_details)
+                        // let is_sql_order_details = 'INSERT INTO order_details SET ?';
+                        // console.log("is_sql_order_details", is_sql_order_details)
+                        // db.query(is_sql_order_details, [data_schedule_details], (err, rown, fields) => {
+                        //     if (err) throw err
+                        //     console.log("order_details INSERT OK")
+                        // })
                     }
                 })
 

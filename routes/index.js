@@ -135,7 +135,7 @@ module.exports = function (app) {
     app.route('/api/get_orders/:orders_id')
         .get(OrdersCtrl.get_orders);
 
-    app.route('/api/get_orders_status/')
+    app.route('/api/get_orders_status/:Userid')
         .get(OrdersCtrl.get_orders_status);
 
     // tao hoas don
