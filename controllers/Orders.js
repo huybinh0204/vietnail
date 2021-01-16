@@ -322,9 +322,60 @@ module.exports = {
                                         })
                                     }
                                 } else {
-                                    console.log("acdgh");
+                                    let orders_id = rowns[0].id;
+                                    // console.log("111",objN)
+                                    var is_time_order = [];
+                                    var time_order_staffs = [];
+                                    for (var l = 0; l < derts.length; l++) {
+                                        var x = derts[l];
+                                        for (var i = 0; i < rownl.length; i++) {
+                                            var rowns_nv_user = rownl[i].nv_user;
+                                            var rowns_start_time = rownl[i].start_time.toString();
+                                            var rowns_end_time = rownl[i].end_time.toString();
+                                            var is_rowns_start_time = rowns_start_time.slice(16, 21);
+                                            var is_rowns_end_time = rowns_end_time.slice(16, 21);
+
+                                            if (x >= is_rowns_start_time && x <= is_rowns_end_time) {
+                                                let arrorder = {
+                                                    user_order_staffs: rowns_nv_user,
+                                                    time: x
+                                                }
+                                                time_order_staffs.push(arrorder);
+                                            }
+                                        }
+                                        var start_time = rowns[0].start_time.toString();
+                                        var end_time = rowns[0].end_time.toString();
+                                        var a = start_time.slice(16, 21);
+                                        var b = end_time.slice(16, 21);
+                                        if (x >= a && x <= b) {
+                                            is_time_order.push({time_s: x});
+                                        }
+                                    }
+                                    // console.log("objN", objN)
+                                    // console.log("time_order_staffs", time_order_staffs)
+                                    // console.log("is_time_order", is_time_order)
+                                    for (var v = 0; v < objN.length; v++) {
+                                        for (var i = 0; i < time_order_staffs.length; i++) {
+                                            let time_id = time_order_staffs[i].time;
+                                            let user_time = time_order_staffs[i].user_order_staffs;
+                                            if (user_time == objN[v]) {
+                                                console.log("user_time", user_time)
+                                                console.log("time_id", time_id)
+                                                break;
+                                            }
+                                        }
+                                        // console.log("time_id", time_id);
+                                        // console.log("user_time", user_time);
+                                        // for (var v = 0; v < is_time_order.length; v++) {
+                                        //     let is_time_s = is_time_order[v].time_s;
+                                        //     for (var nt = 0; nt < objN.length; nt++) {
+                                        //         console.log("1111", objN[nt])
+                                        //
+                                        //     }
+                                        // }
+                                    }
+
                                 }
-                                // if (rown != '') {
                                 //     var objN = [];
                                 //     var objNN = [];
                                 //     for (var i = 0; i < rown.length; i++) {
@@ -629,30 +680,55 @@ module.exports = {
             status: status,
             content_cancel: content_cancel
         }
-        console.log("data", data)
-        let sql = 'UPDATE orders SET ? WHERE id = ?'
-        if (status == 1 && user_id && is_content_cancel != '' || undefined) {
-            db.query(sql, [data, OrderStatusID], (err, response) => {
-                if (err) throw err
-                res.json({"status": "200", "message": 'khách hàng huỷ đơn!'});
-            })
-        } else if (status == 3 && user_id && is_content_cancel != '' || undefined) {
-            db.query(sql, [data, OrderStatusID], (err, response) => {
-                if (err) throw err
-                res.json({"status": "200", "message": 'Nhân viên huỷ đơn!'});
-            })
-        } else if (status == 4 && user_id && is_content_cancel != '' || undefined) {
-            db.query(sql, [data, OrderStatusID], (err, response) => {
-                if (err) throw err
-                res.json({"status": "200", "message": 'Đơn làm nails hoàn thành !'});
-            })
-        } else if (status == 5 && user_id && is_content_cancel != '' || undefined) {
-            db.query(sql, [data, OrderStatusID], (err, response) => {
-                if (err) throw err
-                res.json({"status": "200", "message": 'Đơn làm lể tân xác nhận khách hang den !'});
-            })
-        } else {
-            res.json({"status": "403", "message": 'không có quyền với status này !'});
-        }
+        let sql_check = `SELECT * FROM orders WHERE status != 1 and status != 4 and id = ${OrderStatusID}`;
+        db.query(sql_check, (err, respon, response) => {
+            if (err) throw err
+            if (respon != '') {
+                let sql = 'UPDATE orders SET ? WHERE id = ?';
+                let sqlm = 'UPDATE order_staffs SET ? WHERE orders_id = ?'
+                if (status == 1 && user_id && is_content_cancel != '' || undefined) {
+                    db.query(sql, [data, OrderStatusID], (err, response) => {
+                        if (err) throw err
+                        res.json({"status": "200", "message": 'khách hàng huỷ đơn!'});
+                    })
+                    db.query(sqlm, [{is_status: 3}, OrderStatusID], (err, response) => {
+                        if (err) throw err
+                        console.log("khách hàng huỷ đơn!");
+                    })
+                } else if (status == 3 && user_id && is_content_cancel != '' || undefined) {
+                    db.query(sql, [data, OrderStatusID], (err, response) => {
+                        if (err) throw err
+                        res.json({"status": "200", "message": 'Nhân viên huỷ đơn thành công!'});
+                    });
+                    db.query(sqlm, [{is_status: 0}, OrderStatusID], (err, response) => {
+                        if (err) throw err
+                        console.log("Nhân viên huỷ đơn!");
+                    });
+                } else if (status == 4 && user_id && is_content_cancel != '' || undefined) {
+                    db.query(sql, [data, OrderStatusID], (err, response) => {
+                        if (err) throw err
+                        res.json({"status": "200", "message": 'Đơn làm nails hoàn thành !'});
+                    })
+                } else if (status == 5 && user_id && is_content_cancel != '' || undefined) {
+                    db.query(sql, [data, OrderStatusID], (err, response) => {
+                        if (err) throw err
+                        res.json({"status": "200", "message": 'Đơn làm lể tân xác nhận khách hang den !'});
+                    })
+                } else if (status == 6 && user_id && is_content_cancel != '' || undefined) {
+                    db.query(sql, [data, OrderStatusID], (err, response) => {
+                        if (err) throw err
+                        res.json({"status": "200", "message": 'Thu ngân huỷ đơn thành công !'});
+                    })
+                    db.query(sqlm, [{is_status: 3}, OrderStatusID], (err, response) => {
+                        if (err) throw err
+                        console.log("Thu ngân huỷ đơn!");
+                    });
+                } else {
+                    res.json({"status": "403", "message": 'không có quyền với status này !'});
+                }
+            } else {
+                res.json({"status": "403", "message": 'không có quyền với banr ghi này !'});
+            }
+        })
     },
 }
