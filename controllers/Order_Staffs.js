@@ -5,7 +5,7 @@ var moment = require('moment-timezone');
 var year = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD");
 module.exports = {
     store_order_staffs: (req, res) => {
-        let sql = `SELECT * FROM user WHERE id NOT IN (SELECT user_id_nv FROM day_off WHERE day_off.end_date >= "2021-01-06%" and day_off.begin_date <= "2021-01-06%") and roles_id = 2 and is_active =0`;
+        let sql = `SELECT * FROM user WHERE id NOT IN (SELECT user_id_nv FROM day_off WHERE day_off.end_date >= "${year}%" and day_off.begin_date <= "${year}%") and roles_id = 2 and is_active =0`;
         db.query(sql, (err, rown, fields) => {
             if (err) throw err
             var user_id_nv = rown[0].id;

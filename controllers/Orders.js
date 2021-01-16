@@ -8,7 +8,7 @@ var year = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD");
 module.exports = {
     get_orders: (req, res) => {
         let orders_id = req.params.orders_id;
-        let sql = `SELECT * FROM order_details JOIN nails_service ON nails_service.id = order_details.nails_service_id JOIN orders ON orders.id = order_details.orders_id where orders.id = ${orders_id}`;
+        let sql = `SELECT nails_service.id,code_order,time_service,image,title,nails_service.moneys_sv as moneys,status,content_order FROM order_details JOIN nails_service ON nails_service.id = order_details.nails_service_id JOIN orders ON orders.id = order_details.orders_id where orders.id = ${orders_id}`;
         console.log("111", sql)
         db.query(sql, [orders_id], (err, rown, fields) => {
             if (err) throw err
@@ -61,29 +61,10 @@ module.exports = {
         })
     },
     get_orders_status: (req, res) => {
-        let sql = `SELECT * FROM orders WHERE status = 4`;
+        var Userid = req.params.Userid
+        let sql = `SELECT * FROM user WHERE id = ${Userid}`;
         db.query(sql, (err, rown, fields) => {
             if (err) throw err
-            var obj = [];
-            for (var i = 0; i < rown.length; i++) {
-                var ArrSchedule = {
-                    id: rown[i].id,
-                    code_order: rown[i].code_order,
-                    start_time: rown[i].start_time,
-                    title: rown[i].title,
-                    moneys: rown[i].moneys,
-                    phone_nv: rown[i].phone_nv,
-                    status: rown[i].status,
-                    fullName_nv: rown[i].fullName_nv,
-                    content_order: rown[i].content_order,
-                    name_kh: rown[i].name_kh,
-                };
-                obj.push(ArrSchedule);
-            }
-            var _ArrSchedule = JSON.stringify(obj);
-            var ScheduleJson = JSON.parse(_ArrSchedule);
-            var ArrGetSchedule = [{"status": "200", "data": ScheduleJson}]
-            res.json(ArrGetSchedule);
         })
     },
     store_orders: (req, res) => {
@@ -502,81 +483,6 @@ module.exports = {
             }
         )
     },
-
-//     if (rowns && rownl != '') {
-//         let rowns_check =[];
-//         let rownl_check =[];
-//         for (var i = 0; i < derts.length; i++) {
-//             var x = derts[i];
-//             for (var s = 0; s < rowns.length; s++) {
-//                 var rowns_start_time = rowns[s].start_time.toString();
-//                 var rowns_end_time = rowns[s].end_time.toString();
-//                 var is_rowns_start_time = rowns_start_time.slice(16, 21);
-//                 var is_rowns_end_time = rowns_end_time.slice(16, 21);
-//                 if (x >= is_rowns_start_time && x <= is_rowns_end_time) {
-//                     var checktime = x;
-//                     // if (s == (rowns.length - 1)) {
-//                         console.log("cccccc",checktime)
-//                         rowns_check.push(checktime)
-//                     // }
-//                 }
-//                 console.log("22222222",user_id_nv)
-//                 for (var k = 0; k < rownl.length; k++) {
-//                     var start_time = rownl[k].start_time.toString();
-//                     var end_time = rownl[k].end_time.toString();
-//                     var a = start_time.slice(16, 21);
-//                     var b = end_time.slice(16, 21);
-//                     console.log("user_id_nv 3333",user_id_nv)
-//
-//                     if (x >= a && x <= b) {
-//                         var check_time_nv = x;
-//                     }
-//                 }
-//             }
-//             // for (var k = 0; k < rownl.length; k++) {
-//             //     var start_time = rownl[k].start_time.toString();
-//             //     var end_time = rownl[k].end_time.toString();
-//             //     var a = start_time.slice(16, 21);
-//             //     var b = end_time.slice(16, 21);
-//             //     var check_time_nv = x;
-//             //     if (x >= a && x <= b) {
-//             //         console.log("checktime", x);
-//             //         rownl_check.push(check_time_nv)
-//             //     }
-//
-//                     // let sql_o = 'UPDATE orders SET ? WHERE id = ?'
-//                     // db.query(sql_o, [{status:2}, rowns[0].id], (err, response) => {
-//                     //     if (err) throw err
-//                     // })
-//                     // let sql_od = 'UPDATE order_staffs SET ? WHERE orders_id = ?'
-//                     // db.query(sql_od, [{user_id_nv:user_id_nv,fullname_nv:fullname_nv}, rowns[0].id], (err, response) => {
-//                     //     if (err) throw err
-//                     // })
-//
-//             // }
-//
-//         }
-//     }
-//
-//     for (var n=0 ; n < rowns.length ; n++){
-//     console.log()
-//     var status = rowns[k].status;
-//     var rowns_start_time = rowns[n].start_time.toString();
-//     var rowns_end_time = rowns[n].end_time.toString();
-//     var is_rowns_start_time = rowns_start_time.slice(16, 21);
-//     var is_rowns_end_time = rowns_end_time.slice(16, 21);
-//     if (x >= is_rowns_start_time && x <= is_rowns_end_time) {
-//         is_ArrSchedule = {
-//             working_time: x,
-//             status: status,
-//             user_id_nv: rowns[n].user_id_nv
-//         };
-//         console.log("is_ArrSchedule", is_ArrSchedule)
-//         console.log("ArrSchedule", ArrSchedule)
-//         break;
-//     }
-// }
-// break;
     open_settime_order_don: (req, res, next) => {
         let start_time = req.body.start_time;
         let sql = `SELECT * FROM orders WHERE start_time LIKE '${start_time}%' and status = 0`;
@@ -680,10 +586,10 @@ module.exports = {
             status: status,
             content_cancel: content_cancel
         }
-        // let sql_check = `SELECT * FROM orders WHERE status != 1 and status != 4 and id = ${OrderStatusID}`;
-        // db.query(sql_check, (err, respon, response) => {
-        //     if (err) throw err
-        //     if (respon != '') {
+        let sql_check = `SELECT * FROM orders WHERE status != 1 and status != 4 and id = ${OrderStatusID}`;
+        db.query(sql_check, (err, respon, response) => {
+            if (err) throw err
+            if (respon != '') {
                 let sql = 'UPDATE orders SET ? WHERE id = ?';
                 let sqlm = 'UPDATE order_staffs SET ? WHERE orders_id = ?'
                 if (status == 1 && user_id && is_content_cancel != '' || undefined) {
@@ -691,10 +597,10 @@ module.exports = {
                         if (err) throw err
                         res.json({"status": "200", "message": 'khách hàng huỷ đơn!'});
                     })
-                    // db.query(sqlm, [{is_status: 3}, OrderStatusID], (err, response) => {
-                    //     if (err) throw err
-                    //     console.log("khách hàng huỷ đơn!");
-                    // })
+                    db.query(sqlm, [{is_status: 3}, OrderStatusID], (err, response) => {
+                        if (err) throw err
+                        console.log("khách hàng huỷ đơn!");
+                    })
                 } else if (status == 3 && user_id && is_content_cancel != '' || undefined) {
                     db.query(sql, [data, OrderStatusID], (err, response) => {
                         if (err) throw err
@@ -726,9 +632,9 @@ module.exports = {
                 } else {
                     res.json({"status": "403", "message": 'không có quyền với status này !'});
                 }
-        //     } else {
-        //         res.json({"status": "403", "message": 'không có quyền với banr ghi này !'});
-        //     }
-        // })
+            } else {
+                res.json({"status": "403", "message": 'không có quyền với banr ghi này !'});
+            }
+        })
     },
 }
