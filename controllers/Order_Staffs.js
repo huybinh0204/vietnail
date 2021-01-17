@@ -36,7 +36,7 @@ module.exports = {
             // res.json(rown);
         })
     },
-    //  thu ngân check nhaan vien di làm tring ngay hm đó
+    //  thu ngân thêm nhân viên vào đơn hàng
     order_staffs_store_us: (req, res) => {
         let user_id_nv = req.body.user_id_nv;
         let content = req.body.content;
@@ -65,7 +65,7 @@ module.exports = {
         }
 
     },
-    //  thu ngân thêm nhân viên vào đơn hàng
+    //thu ngân check nhaan vien di làm tring ngay hm đó
     uesr_order_staffs: (req, res) => {
         let sql = `SELECT * FROM user WHERE id NOT IN (SELECT user_id_nv FROM day_off WHERE day_off.end_date >= "${year}%" and day_off.begin_date <= "${year}%") and roles_id = 2 and is_active =0`;
         db.query(sql, (err, rown, fields) => {

@@ -63,18 +63,18 @@ module.exports = {
     get_orders_status: (req, res) => {
         var Userid = req.params.Userid
         let sql = `SELECT * FROM user WHERE id = ${Userid}`;
-        db.query(sql,[Userid], (err, rown, fields) => {
+        db.query(sql, [Userid], (err, rown, fields) => {
             if (err) throw err
             if (rown != '') {
-                let sqlk ='';
+                let sqlk = '';
                 // console.log("rown[0].roles_id",rown[0].roles_id)
-                if(rown[0].roles_id == 1){
+                if (rown[0].roles_id == 1) {
                     sqlk = `SELECT * FROM orders WHERE status = 4`;
-                }else if(rown[0].roles_id == 2) {
+                } else if (rown[0].roles_id == 2) {
                     sqlk = `SELECT * FROM orders WHERE status = 4`;
-                }else if(rown[0].roles_id == 3){
+                } else if (rown[0].roles_id == 3) {
                     sqlk = `SELECT * FROM orders JOIN order_staffs on order_staffs.orders_id = orders.id WHERE order_staffs.user_id_nv  = ${Userid}`;
-                }else {
+                } else {
                     sqlk = `SELECT * FROM orders WHERE status = 4`;
                 }
                 db.query(sqlk, (err, rowns, fields) => {
@@ -267,7 +267,7 @@ module.exports = {
         db.query(sql, (err, rown, fields) => {
                 if (err) throw err
                 // tat car hoas don khach hang tao
-                let sql_orders = `SELECT id,start_time,end_time FROM orders WHERE created_order LIKE '${start_time}%' and status = 0`;
+                let sql_orders = `SELECT id,start_time,end_time FROM orders WHERE created_order LIKE '${start_time}%' and status = 0 and assig_status = 0`;
                 db.query(sql_orders, (err, rowns, fields) => {
                     if (err) throw err
                     // hoas ddown nhaan vien lam
@@ -332,7 +332,7 @@ module.exports = {
                                                 console.log("tự động phân công nhân viên thành công!")
                                             });
                                             let sql_o = 'UPDATE orders SET ? WHERE id = ?'
-                                            db.query(sql_o, [{status: 2}, orders_id], (err, response) => {
+                                            db.query(sql_o, [{assig_status: 1}, orders_id], (err, response) => {
                                                 if (err) throw err
                                             });
 
@@ -368,148 +368,50 @@ module.exports = {
                                             is_time_order.push({time_s: x});
                                         }
                                     }
-                                    // console.log("objN", objN)
-                                    // console.log("time_order_staffs", time_order_staffs)
-                                    // console.log("is_time_order", is_time_order)
+                                    var check_d = [];
                                     for (var v = 0; v < objN.length; v++) {
                                         for (var i = 0; i < time_order_staffs.length; i++) {
                                             let time_id = time_order_staffs[i].time;
                                             let user_time = time_order_staffs[i].user_order_staffs;
                                             if (user_time == objN[v]) {
-                                                console.log("user_time", user_time)
-                                                console.log("time_id", time_id)
-                                                break;
+                                                for (var kt = 0; kt < is_time_order.length; kt++) {
+                                                    let timmeee = is_time_order[kt].time_s;
+                                                    if (time_id !== timmeee) {
+                                                        // console.log("timmeee",)
+                                                        // console.log("timmeee",timmeee);
+                                                        // break;
+                                                    } else {
+                                                        check_d.push(user_time)
+                                                    }
+                                                }
                                             }
                                         }
-                                        // console.log("time_id", time_id);
-                                        // console.log("user_time", user_time);
-                                        // for (var v = 0; v < is_time_order.length; v++) {
-                                        //     let is_time_s = is_time_order[v].time_s;
-                                        //     for (var nt = 0; nt < objN.length; nt++) {
-                                        //         console.log("1111", objN[nt])
-                                        //
-                                        //     }
-                                        // }
                                     }
+                                    var chek_ = uniqBy(check_d, JSON.stringify);
+                                    var check_u = arr_diff(objN, chek_);
+                                    // console.log("222",check_u);
+                                    for (var p = 0; p < check_u.length; p++) {
+                                        let user_id = Number(check_u[0]);
+                                        let sql = `SELECT id, fullname FROM user WHERE id = ${user_id}`;
+                                        db.query(sql, (err, ro_order_staffs, fields) => {
+                                            if (err) throw err
+                                            let fullname_nv = ro_order_staffs[0].fullname;
+                                            let sql_od = 'UPDATE order_staffs SET ? WHERE orders_id = ?'
+                                            db.query(sql_od, [{
+                                                user_id_nv: user_id,
+                                                fullname_nv: fullname_nv
+                                            }, orders_id], (err, response) => {
+                                                if (err) throw err
+                                                console.log("tự động phân công nhân viên thành công!")
+                                            });
+                                            let sql_o = 'UPDATE orders SET ? WHERE id = ?'
+                                            db.query(sql_o, [{assig_status: 1}, orders_id], (err, response) => {
+                                                if (err) throw err
+                                            });
 
+                                        })
+                                    }
                                 }
-                                //     var objN = [];
-                                //     var objNN = [];
-                                //     for (var i = 0; i < rown.length; i++) {
-                                //         let user_id_nv = rown[i].id
-                                //         let fullname_nv = rown[i].fullname_nv
-                                //
-                                //         // console.log(user_id_nv)
-                                //         for (var l = 0; l < derts.length; l++) {
-                                //             var x = derts[l];
-                                //             if (rowns != '') {
-                                //                 // for (var k = 0; k < rowns.length; k++) {
-                                //                     let orders_id = rowns[0].id;
-                                //                     var rowns_start_time = rowns[0].start_time.toString();
-                                //                     var rowns_end_time = rowns[0].end_time.toString();
-                                //                     var is_rowns_start_time = rowns_start_time.slice(16, 21);
-                                //                     var is_rowns_end_time = rowns_end_time.slice(16, 21);
-                                //                     if (x >= is_rowns_start_time && x <= is_rowns_end_time) {
-                                //                         var abn = {
-                                //                             orders_id: orders_id,
-                                //                             time: x
-                                //                         };
-                                //                         objNN.push(abn)
-                                //                         // break;
-                                //                     }
-                                //                 // }
-                                //                 if (rownl != '') {
-                                //                     for (var m = 0; m < rownl.length; m++) {
-                                //                         let user_nv = rownl[m].nv_user
-                                //                         var start_time = rownl[m].start_time.toString();
-                                //                         var end_time = rownl[m].end_time.toString();
-                                //                         var a = start_time.slice(16, 21);
-                                //                         var b = end_time.slice(16, 21);
-                                //                         if (x >= a && x <= b) {
-                                //                             if (user_nv == user_id_nv) {
-                                //                                 var ab = {
-                                //                                     user_nv: user_id_nv,
-                                //                                     time: x,
-                                //                                 };
-                                //                                 ab && objN.push(ab);
-                                //                                 break;
-                                //                             }
-                                //                         }
-                                //                     }
-                                //                 }
-                                //             }
-                                //         }
-                                //     }
-                                // console.log("check", objNN)
-                                // console.log("objN", objN)
-                                // function uniqBy(objNN, key) {
-                                //     var seen = {};
-                                //     return objNN.filter(function (item) {
-                                //         var k = key(item);
-                                //         return seen.hasOwnProperty(k) ? false : (seen[k] = true);
-                                //     })
-                                // }
-                                // var bk = uniqBy(objNN, JSON.stringify);
-                                // console.log("check", bk)
-                                // console.log("objN", objN)
-                                // for (var q = 0; q < rown.length; q++) {
-                                //     let user_id_nv = rown[q].id;
-                                //     let fullname_nv = rown[q].fullname_nv;
-                                //     for (var w = 0; w<objN.length;w++){
-                                //         var user_nv = objN[w].user_nv;
-                                //         var user_time = objN[w].time;
-                                //         for (var  r = 0; r<bk.length;r++){
-                                //             var orders_time = bk[r].time;
-                                //             if (orders_time == user_time){
-                                //                 console.log("orders_time",orders_time + " : user_nv : " + user_nv)
-                                //             }else {
-                                //                 console.log("121111",orders_time + " : 222222 : " + user_nv)
-                                //             }
-                                //
-                                //             // if (user_id_nv == user_nv){
-                                //             //     console.log("111",user_nv);
-                                //             // }
-                                //         }
-                                //     }
-                                // }
-
-
-                                // var check = [];
-
-                                //         var check_h = derts[h];
-                                //         var objN_time = objN[m].time;
-                                //          if (check_h != objN[m].time) {
-                                //              if(m - (objN.length-1)){
-                                //                  // console.log("check_h", check_h)
-                                //                  // console.log("objN_time", objN_time)
-                                //                  var check_time_derts = {
-                                //                      user_nv: objN[m].user_nv,
-                                //                      time: check_h
-                                //                  };
-                                //                  check_time_derts && check.push(check_time_derts)
-                                //                  break;
-                                //              }
-                                //
-                                //         // } else {
-                                //         //
-                                //         }
-                                //     }
-                                // }
-
-                                // console.log("bk",bk)
-                                // var n =[]
-                                // for (var f = 0; f < objN.length; f++) {
-                                //     for (var g = 0; g < bk.length; g++) {
-                                //         if (objN[f].time == bk[g].time) {
-                                //             // var abd = {
-                                //             //     user_nv: objN[0].user_nv,
-                                //             //     orders_id: bk[0].orders_id
-                                //             // };
-                                //                 console.log("user_nv", objN[f].user_nv+":"+objN[f].time)
-                                //                 console.log("time", bk[0].orders_id)
-                                //         }
-                                //     }
-                                // }
                             } else {
                                 console.log("Không có hoá đơn nào tồn tại !")
                             }
@@ -558,60 +460,6 @@ module.exports = {
         })
 
     },
-    // open_settime_order_don: (req, res, next) => {
-    //     let start_time = req.body.start_time;
-    //     let sql = `SELECT * FROM orders WHERE start_time LIKE '2021-01-06%'`;
-    //     console.log("11", sql)
-    //     db.query(sql, [start_time, req.params.start_time], (err, rown, fields) => {
-    //         if (err) throw err
-    //         var derts = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00",
-    //             "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30",
-    //             "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"];
-    //         var objN = [];
-    //         var ArrSchedule;
-    //         for (var i = 0; i < derts.length; i++) {
-    //             var x = derts[i];
-    //             // console.log("111",x);
-    //             if (rown.length > 0) {
-    //                 for (var k = 0; k < rown.length; k++) {
-    //                     var status = rown[k].status;
-    //                     var start_time = rown[k].start_time.toString();
-    //                     var end_time = rown[k].end_time.toString();
-    //                     var a = start_time.slice(16, 21);
-    //                     var b = end_time.slice(16, 21);
-    //                     if (x >= a && x <= b) {
-    //                         ArrSchedule = {
-    //                             working_time: x,
-    //                             start_time: rown[k].start_time,
-    //                             end_time: rown[k].end_time,
-    //                             status: status,
-    //                         };
-    //                         ArrSchedule && objN.push(ArrSchedule)
-    //                         break;
-    //                     } else {
-    //                         if (k == (rown.length - 1)) {
-    //                             ArrSchedule = {
-    //                                 working_time: x,
-    //                                 status: 3,
-    //                             };
-    //                             ArrSchedule && objN.push(ArrSchedule)
-    //                         }
-    //                     }
-    //                 }
-    //             } else {
-    //                 ArrSchedule = {
-    //                     working_time: x,
-    //                     status: 3,
-    //                 };
-    //                 ArrSchedule && objN.push(ArrSchedule)
-    //             }
-    //
-    //         }
-    //         var ArrGetSchedule = [{"status": "200", message: 'schedule working time !', "data": objN}]
-    //         res.json(ArrGetSchedule);
-    //     })
-    //
-    // },
     store_status: (req, res) => {
         let OrderStatusID = req.params.OrderStatusID;
         let status = Number(req.body.status);
