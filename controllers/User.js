@@ -173,7 +173,7 @@ module.exports = {
         var check_time = moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD hh:mm:ss");
         var date = new Date();
         var is_created_otp = date.getTime();
-        let sql_check = `SELECT id , phone , is_status ,is_active FROM user WHERE phone = "${req.body.phone}"`;
+        let sql_check = `SELECT id , phone , is_status , is_active FROM user WHERE phone = "${req.body.phone}"`;
         console.log("sql_check",sql_check)
         db.query(sql_check, (err, rown, fields) => {
             if (err) throw err
