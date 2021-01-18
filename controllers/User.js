@@ -184,7 +184,7 @@ module.exports = {
             // console.log("1111",data)
             if (rown == "" && data != undefined) {
                 let password = md5(req.body.password);
-                let fullname = req.body.fullname;
+                let fullname = req.body.fullName;
                 let roles_id = req.body.roles_id;
                 let email = req.body.email;
                 let is_status = 1;
