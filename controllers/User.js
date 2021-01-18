@@ -182,7 +182,7 @@ module.exports = {
                 `${random_random.SecretKey}&Brandname=${random_random.Brandname}&SmsType=${random_random.SmsType}`;
             let data = req.body.id_roles;
             // console.log("1111",data)
-            if (rown == "" && data != undefined) {
+            if (rown == "") {
                 let password = md5(req.body.password);
                 let fullname = req.body.fullName;
                 let roles_id = req.body.id_roles;
