@@ -91,8 +91,8 @@ module.exports = function (app) {
 
 
     // sử thông tin tài kh
-    // app.route('/api/user/edit/:userId')
-    //     .put(token_config.checkToken, UserCtrl.update);
+    app.route('/api/user/edit/:userId')
+        .put(UserCtrl.update);
 
 
     //Khoa tai khoản (xoá tài khoản)
