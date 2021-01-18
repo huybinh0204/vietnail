@@ -174,18 +174,18 @@ module.exports = {
         var date = new Date();
         var is_created_otp = date.getTime();
         let sql_check = `SELECT id , phone , is_status ,is_active FROM user WHERE phone = "${req.body.phone}"`;
-        // console.log("sql_check",sql_check)
+        console.log("sql_check",sql_check)
         db.query(sql_check, (err, rown, fields) => {
             if (err) throw err
             let phone = req.body.phone;
             var url = `${random_random.esms_url}?Phone=${phone}&Content=${otp}&ApiKey=${random_random.ApiKey}&SecretKey=` +
                 `${random_random.SecretKey}&Brandname=${random_random.Brandname}&SmsType=${random_random.SmsType}`;
-            let data = req.body.roles_id;
+            let data = req.body.id_roles;
             // console.log("1111",data)
             if (rown == "" && data != undefined) {
                 let password = md5(req.body.password);
                 let fullname = req.body.fullName;
-                let roles_id = req.body.roles_id;
+                let roles_id = req.body.id_roles;
                 let email = req.body.email;
                 let is_status = 1;
                 let is_active = 2;
