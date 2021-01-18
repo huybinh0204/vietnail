@@ -220,7 +220,7 @@ module.exports = function (app) {
     app.route('/api/get_notify/:user_id')
         .get(NotificationCtrl.get_notify);
 
-    cron.schedule('*/1 * * * *', () => {
+    cron.schedule('*/15 * * * *', () => {
 
         app.get(Notify_UserCtrl.get_time_schedule())
         app.get(Notify_UserCtrl.get_notify_kh())
